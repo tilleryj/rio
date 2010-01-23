@@ -15,47 +15,18 @@ Gem::Specification.new do |s|
   
   s.add_dependency('packr')
   
-  s.files = [
-    ".document",
-     ".gitignore",
+  s.files = Dir[
      "LICENSE",
      "README.rdoc",
-     "Rakefile",
-     "VERSION",
-     "lib/rio.rb",
-     "spec/rio_spec.rb",
-     "spec/spec.opts",
-     "spec/spec_helper.rb"
+     "lib/**/*"
   ]
+  s.require_paths = ["lib"]
 
   s.rdoc_options = ["--charset=UTF-8"]
   s.has_rdoc = false
 
   s.authors = ["Jason Tillery", "Vishu Ramanathan"]
   s.email = "tilleryj@gmail.com"
-  s.homepage = %q{http://github.com/tilleryj/rio}
-
-  s.require_paths = ["lib"]
-
-
-  # s.rubygems_version = %q{1.3.5}
-  # s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  # s.test_files = [
-  #   "spec/rio_spec.rb",
-  #    "spec/spec_helper.rb"
-  # ]
-  # 
-  # if s.respond_to? :specification_version then
-  #   current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
-  #   s.specification_version = 3
-  # 
-  #   if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-  #     s.add_development_dependency(%q<rspec>, [">= 1.2.9"])
-  #   else
-  #     s.add_dependency(%q<rspec>, [">= 1.2.9"])
-  #   end
-  # else
-  #   s.add_dependency(%q<rspec>, [">= 1.2.9"])
-  # end
+  s.homepage = "http://github.com/tilleryj/rio"
 end
 

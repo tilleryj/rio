@@ -1,45 +1,16 @@
-require 'rubygems'
 require 'rake'
+require 'rake/gempackagetask'
 
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name = "rio"
-    gem.summary = %Q{Rio is a javascript RIA framework for building real-time collaborative web applications.}
-    gem.description = %Q{Rio is a javascript RIA framework for building real-time collaborative web applications.}
-    gem.email = "tilleryj@gmail.com"
-    gem.homepage = "http://github.com/tilleryj/rio"
-    gem.authors = ["Jason Tillery", "Vishu Ramanathan"]
-    gem.add_development_dependency "rspec", ">= 1.2.9"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
-  end
-  Jeweler::GemcutterTasks.new
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
+spec = eval(File.read('rio.gemspec'))
+Rake::GemPackageTask.new(spec) do |pkg|
+  pkg.gem_spec = spec
 end
 
-require 'spec/rake/spectask'
-Spec::Rake::SpecTask.new(:spec) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.spec_files = FileList['spec/**/*_spec.rb']
+def version
+  File.read('VERSION').strip
 end
 
-Spec::Rake::SpecTask.new(:rcov) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
-end
-
-task :spec => :check_dependencies
-
-task :default => :spec
-
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
-
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "rio #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
+desc "Install rio"
+task :install => :gem do
+  system("gem install pkg/rio-#{version}.gem --no-ri --no-rdoc")
 end
