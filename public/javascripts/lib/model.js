@@ -1034,13 +1034,17 @@ rio.Model = {
 			}.bind(this));
 			
 			if (model.hasChannel()) {
-				var addChannel = function() {
-					rio.push.addChannel(this.channelName());
-				}.bind(this);
-				if (options.id && options.id.temporary()) {
-					options.id.doAfterReification(addChannel);
+				if (rio.push) {
+					var addChannel = function() {
+						rio.push.addChannel(this.channelName());
+					}.bind(this);
+					if (options.id && options.id.temporary()) {
+						options.id.doAfterReification(addChannel);
+					} else {
+						addChannel();
+					}
 				} else {
-					addChannel();
+					rio.warn("Attempted to add a channel without an available push server");
 				}
 			}
 

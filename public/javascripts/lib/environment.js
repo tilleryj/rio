@@ -1,5 +1,6 @@
 Object.extend(rio.environment, {
-	push: false,
+	push: true,
+	pushServer: "Juggernaut",
 	pushPort: 5001,
 	pushUrl: "127.0.0.1",
 	pushOptions: {},

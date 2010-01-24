@@ -39,6 +39,7 @@ module Rio
       install_items! File.join('..', 'public', 'javascripts', 'lib', 'juggernaut.swf'), File.join('public', 'javascripts', 'lib')
       install_items! File.join('..', 'public', 'javascripts', 'lib', 'environment.js'), File.join('public', 'javascripts', 'lib')
       install_items! File.join('config')
+      install_items! File.join('lib')
     end
     
     def self.add_gem_require_to_environment!

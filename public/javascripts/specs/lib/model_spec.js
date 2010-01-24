@@ -19,7 +19,7 @@ describe(rio.Model, {
 	
 	"with a backing resource": {
 		beforeEach: function() {
-			stub(rio.push, "addChannel");
+			stub(rio.push || {}, "addChannel");
 	
 			this.model = rio.Model.create("SomeModel", {
 				resource: "/resource_url",
@@ -328,6 +328,7 @@ describe(rio.Model, {
 			},
 			
 			"should subscribe to a channel when the id is specified": function() {
+				stub(rio, "push").withValue({});
 				stub(rio.push, "addChannel").withValue(function(channel) {
 					channel.shouldEqual("SomeModel.1");
 				}.shouldBeCalled());
@@ -337,6 +338,7 @@ describe(rio.Model, {
 			
 			"should not subscribe to a channel for an entity with a temporary id until after reification": function() {
 				var id = this.model.id();
+				stub(rio, "push").withValue({});
 				stub(rio.push, "addChannel").shouldNotBeCalled();
 
 				var modelInstance = new this.model({ id: id });
