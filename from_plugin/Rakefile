@@ -1,0 +1,36 @@
+require 'rake'
+require 'rake/testtask'
+require 'rake/rdoctask'
+
+desc 'Default: run unit tests.'
+task :default => :test
+
+desc 'Test the rio_on_rails plugin.'
+Rake::TestTask.new(:test) do |t|
+  t.libs << 'lib'
+  t.pattern = 'test/**/*_test.rb'
+  t.verbose = true
+end
+
+desc 'Generate documentation for the rio_on_rails plugin.'
+Rake::RDocTask.new(:rdoc) do |rdoc|
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title    = 'RioOnRails'
+  rdoc.options << '--line-numbers' << '--inline-source'
+  rdoc.rdoc_files.include('README')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+end
+
+RIO_ON_RAILS_ROOT = "."
+RIO_JS_ROOT = File.join(RIO_ON_RAILS_ROOT, "public", "javascripts")
+
+desc "Update the rio docs"
+task :jsdoc do
+  js_doc_output = File.join(RIO_JS_ROOT, "lib", "console", "docs")
+  rio_build_path = File.join(RIO_JS_ROOT, "lib", "rio.build")
+  rio_files = IO.readlines(rio_build_path) + ["lib/boot"]
+  files = rio_files.map do |f| 
+    File.join(RIO_JS_ROOT, f.strip + ".js")
+  end
+  `java -jar jsdoc/jsrun.jar jsdoc/app/run.js -d=#{ js_doc_output } -a -t=jsdoc/templates/jsdoc #{ files.join(" ") }`
+end

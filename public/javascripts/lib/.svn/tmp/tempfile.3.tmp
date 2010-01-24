@@ -1,0 +1,583 @@
+/**
+	@class
+
+	Attr is the basis for most of rio.  It is the class from which all apps, pages, models, and components
+	are derived, though you will rarely have to use Attr directly.  Attr provides all of the functionality 
+	related to attributes, bindings, dependency management, and events.
+	
+	@author Jason Tillery
+	@copyright 2008-2009 Thinklink LLC
+*/
+rio.Attr = {
+	/**
+		Creates an instance of rio.Attr.
+		
+		@param {String} name (optional) The name of this Attr.  Used primarily for testing reports.
+		@param {Object} extends (optional) An Attr class to use as a superclass.
+		@param {Object} args (optional) The definition of the class.
+		@returns a new instance of type Attr
+		@type rio.Attr
+		@example
+		var attr = rio.Attr.create("AttrName", {
+			attrAccessors: [], // list of accessors
+			attrReaders: [], // list of readers
+			methods: {
+				initialize: function() {
+					
+				}
+			},
+			classMethods: {
+				
+			}
+		});
+	*/ 
+	create: function() {
+		var args = $A(arguments);
+		var attr = (args.length > 0 && args[0] != undefined && args[0].ATTR) ? Class.create(args[0]) : Class.create();
+
+		if (args.length > 0 && args.first() != undefined && Object.isString(args.first())) {
+			attr.NAME = args.first();
+		} else if (attr.superclass && args.length > 1 && args[1] != undefined && Object.isString(args[1])) {
+			attr.NAME = args[1];
+		} else {
+			attr.NAME = "[attr rio.Attr]";
+		}
+
+		attr.addMethods(
+			/**
+				@scope rio.Attr.prototype
+			*/
+		{
+			/** @private */
+			ATTR: true,
+
+			/** @private */
+			__bindings: function() {
+				if (!this.___bindings) { this.___bindings = {}; }
+				return this.___bindings;
+			},
+			
+			/** @private */
+			__bindingsFor: function(fieldName) {
+				return this.__bindings()[fieldName] || [];
+			},
+
+			/** @private */
+			__subBindings: function() {
+				if (!this.___subBindings) { this.___subBindings = {}; }
+				return this.___subBindings;
+			},
+
+			/** @private */
+			__subBindingsFor: function(fieldName) {
+				return this.__subBindings()[fieldName] || [];
+			},
+			
+			/** @private */
+			__executeSubBinding: function(attribute, subAttribute, binding, skipInitialExecution) {
+				var subObj = this[("get-" + attribute).camelize()]();
+				if (subObj instanceof Object && subObj.ATTR) {
+					this[("get-" + attribute).camelize()]().bind(subAttribute, binding, skipInitialExecution);
+				}
+			},
+			
+			/** @private */
+			__executeAllBindings: function(fieldName, newValue) {
+				this.__bindingsFor(fieldName).each(function(binding) {
+					this.fireBinding(binding, newValue);
+				}.bind(this));
+				
+				this.__subBindingsFor(fieldName).each(function(subBinding) {
+					this.__executeSubBinding(fieldName, subBinding[0], subBinding[1]);
+				}.bind(this));
+			},
+			
+			/** @private */
+			fireBinding: function(binding, value) {
+				if (Object.isFunction(binding)) {
+					// try {
+						binding(value);
+					// } catch(e) {
+						// TODO: This check is in here because refreshing the console can leave null binding references in the app
+						// This needs to be resolved immediately.  We should be "un-binding" instead of ignoring this error.
+					//	rio.log(e);
+					//}
+				} else {
+					if (Object.isArray(value)) {
+						if (!binding.__unbindings) { binding.__unbindings = []; }
+						binding.__unbindings.each(function(unbinding) {
+							unbinding();
+						});
+						var oldPush = value.push;
+						value.push = value.push.wrap(function(proceed, val) {
+							var ret = proceed(val);
+							if (binding.insert) { binding.insert(val, value.length - 1); }
+							if (binding.empty && value.length == 1) { binding.empty(false); }
+							return ret;
+						});
+						
+						var oldSplice = value.splice;
+						value.splice = value.splice.wrap(function(proceed, index, count, toInsert) {
+							var startsEmpty = value.length == 0;
+
+							var removing = count > 0 && binding.remove;
+							var inserting = (toInsert !== undefined) && binding.insert;
+							if (removing) {	var toRemove = value[index]; }
+							
+							var ret = (toInsert !== undefined) ? proceed(index, count, toInsert) : proceed(index, count);
+
+							if (removing) { binding.remove(toRemove); }
+							if (inserting) { binding.insert(toInsert, index); }
+
+							var endsEmpty = value.length == 0;
+							if (binding.empty && (startsEmpty != endsEmpty)) { binding.empty(endsEmpty); }
+							return ret;
+						});
+						binding.__unbindings.push(function() {
+							value.push = oldPush;
+							value.splice = oldSplice;
+						});
+
+						if (binding.empty) { binding.empty(value.length == 0); }
+					}
+					if (binding.set) { 
+						binding.set(value);
+					}
+				}
+			},
+
+			/**
+				Binds a function to an attribute.
+				<br /><br />
+				<i>NOTE: The function will be called immediately with the current value of the attribute.</i>
+				
+				@param {String} attribute The name of the attribute to bind
+				@param {Function} binding The function to execute when the value of the attribute changes
+				@param {Boolean} skipInitialExecution (optional) Do <b>not</b> immediately call the function with the attributes current value
+				
+				@example
+				attr.bind("attribute", function(newValue) {
+					alert(newValue);
+				});
+			*/
+			bind: function(attribute, binding, skipInitialExecution) {
+				var unbind;
+				if (attribute.include(".")) {
+					var thisAttribute = attribute.match(/^([^\.]*)\.(.*)/)[1];
+					var subAttributes = attribute.match(/^([^\.]*)\.(.*)/)[2];
+					if (!this.__subBindings()[thisAttribute]) { this.__subBindings()[thisAttribute] = []; }
+					this.__subBindings()[thisAttribute].push([subAttributes, binding]);
+					this.__executeSubBinding(thisAttribute, subAttributes, binding, skipInitialExecution);
+				} else {
+					if (!this.__bindings()[attribute]) { this.__bindings()[attribute] = []; }
+					this.__bindings()[attribute].push(binding);
+					unbind = this.unbind.curry(attribute, binding).bind(this);
+					if (!skipInitialExecution) {
+						this.fireBinding(binding, this[("get-" + attribute).camelize()]());
+					}
+				}
+				return unbind;
+			},
+			
+			/**
+				Returns a binding to the specified attribute or attribute path
+				<br /><br />
+				<i>NOTE: The most common reason for using binding is to specify the initial value of another attrAccessor with an attribute path.</i>
+				
+				@param {String} attribute The name of the attribute to bind
+				
+				@example
+				attr.binding("attribute");
+			*/
+			binding: function(attribute) {
+				return new rio.Binding(this, attribute);
+			},
+			
+			/** @private */
+			unbind: function(fieldName, binding) {
+				var bindings = this.__bindingsFor(fieldName);
+				if (bindings) {
+					var index = bindings.indexOf(binding);
+					if (index >= 0) {
+						bindings.splice(index, 1);
+					}
+				}
+			},
+			
+			/** @private */
+			bindAliasIfNeeded: function(fieldName, value) {
+				if (value && value.ATTR_ALIAS) {
+					var observer = function(newValue) {
+						this.__executeAllBindings(fieldName, newValue);
+					}.bind(this);
+
+					this[value.name].bind(observer, true);
+					
+					value.unbind = this.unbind.curry(value.name, observer).bind(this);
+				}
+			},
+			
+			updateAttributes: function(attributes, options) {
+				Object.keys(attributes).map(function(attribute) {
+					return this.setAndReturnAfterSet(attribute, attributes[attribute], options);
+				}.bind(this)).each(function(f) {
+					f();
+				});
+			},
+			
+			/** @private */
+			__eventHandlers: function() {
+				if (!this.___eventHandlers) { this.___eventHandlers = {}; }
+				return this.___eventHandlers;
+			},
+			
+			/** @private */
+			__eventHandlersFor: function(eventName) {
+				return this.__eventHandlers()[eventName] || [];
+			},
+			
+			/**
+				Fires an event.
+				
+				@param {String} eventName The name of the event to fire
+			*/
+			fire: function() {
+				var args = $A(arguments);
+				var eventName = args.shift();
+				this.__eventHandlersFor(eventName).each(function(handler) {
+					handler.apply(this, args);
+				});
+			},
+			
+			/**
+				Observes an event.
+				
+				@param {String} eventName The name of the event to observe
+				@param {Function} handler A function to call when the even is fired
+			*/
+			observe: function(eventName, handler) {
+				if (!this.__eventHandlers()[eventName]) { this.__eventHandlers()[eventName] = []; }
+				this.__eventHandlers()[eventName].push(handler);
+				return this.stopObserving.bind(this, eventName, handler);
+			},
+			
+			stopObserving: function(eventName, handler) {
+				var handlers = this.__eventHandlers()[eventName];
+				if (handlers && handlers.include(handler)) {
+					handlers.splice(handlers.indexOf(handler), 1);
+				}
+			},
+			
+			/* @private */
+			setAndReturnAfterSet: function(fieldName, newValue, options) {
+				var oldValue = this["_" + fieldName];
+				this["_" + fieldName] = newValue;
+				return function() {
+					if (oldValue != newValue) {
+						this.__executeAllBindings(fieldName, newValue);
+
+						// TODO: move this crap into model.js
+						if (this.afterUpdateField && !(options && options.skipSave)) {
+							this.afterUpdateField(fieldName, oldValue, newValue);
+						}
+						if (this.save && !(options && options.skipSave) && !(attr._clientOnlyAttrs && attr._clientOnlyAttrs.include(fieldName))) {
+							this.save.bind(this)();
+						}
+
+						if (oldValue && oldValue.ATTR_ALIAS) {
+							oldValue.unbind();
+						}
+						this.bindAliasIfNeeded(fieldName, newValue);
+					}
+				}.bind(this);
+			}
+		});
+
+		var defaultFields = {};
+		var defaultHtmls = [];
+		var defaultEvents = [];
+
+		if (attr.superclass) {
+			defaultFields = Object.clone(attr.superclass._fields);
+			defaultHtmls = attr.superclass._htmls.clone();
+			defaultEvents = attr.superclass._events.clone();
+		}
+
+		Object.extend(attr, {
+			ATTR: true,
+			_fields: defaultFields,
+			_htmls: defaultHtmls,
+			_events: defaultEvents,
+
+			attrAccessor: function(fieldName, defaultValue) {
+				this.attrReader(fieldName, defaultValue);
+				var methods = {};
+				methods[("set-" + fieldName).camelize()] = function(newValue, options) {
+					this.setAndReturnAfterSet(fieldName, newValue, options)();
+				};
+				this.addMethods(methods);
+			},
+			
+			attrReader: function(fieldName, defaultValue) {
+				if (Object.keys(this._fields).include(fieldName)) {
+					this._fields[fieldName] = defaultValue;
+					return;
+				}
+				var methods = {};
+				var getFunction = function() {
+					var value = this["_" + fieldName];
+					if (value && value.ATTR_ALIAS) {
+						return this[("get-" + value.name).camelize()]();
+					} else {
+						return value;
+					}
+				};
+				methods[("get-" + fieldName).camelize()] = getFunction;
+				methods[("is-" + fieldName).camelize()] = getFunction;
+
+				this.addMethods(methods);
+				this._fields[fieldName] = defaultValue;
+			},
+			
+			attrHtml: function() {
+				var methods = {};
+				$A(arguments).each(function(name) {
+					var fieldName = "_" + name + "Html";
+					var methodName = name + "Html";
+					var buildMethodName = ("build-" + name + "Html").camelize();
+
+					methods[methodName] = function() {
+						if (!this[fieldName]) { this[fieldName] = this[buildMethodName](); }
+						return this[fieldName];
+					};
+					this._htmls.push(fieldName);
+				}.bind(this));
+				this.addMethods(methods);
+			},
+			
+			attrEvent: function(eventName) {
+				this._events.push(eventName);
+			},
+
+			require: function() {
+				$A(arguments).each(function(fileName) {
+					rio.Application.include(fileName);
+				});
+			},
+			
+			_examples: {},
+
+			setExamples: function(exampleJson) {
+				Object.keys(exampleJson).each(function(name) {
+					this._examples[name] = exampleJson[name];
+				}.bind(this));
+			},
+			
+			examples: function() {
+				var exampleGroup = {};
+				
+				Object.keys(this._examples).each(function(name) { 
+					exampleGroup[name] = this.example(name);
+				}.bind(this));
+				
+				return exampleGroup;
+			},
+			
+			example: function(name) {
+				var exampleJson = this._examples[name];
+
+				var evalExamples = function(json) {
+					if (json == undefined) {
+						return;
+					} else if (json._EXAMPLE) {
+						return json.attr.example(json.name);
+					} else if (Object.isArray(json) || json.size) {
+						return json.map(function(value) {
+							return evalExamples(value);
+						});
+					} else if (typeof json == "object") {
+						var newObj = {};
+						Object.keys(json).each(function(key) {
+							newObj[key] = evalExamples(json[key]);
+						});
+						return newObj;
+					} else {
+						return json;
+					}
+				};
+				
+				var params = evalExamples(exampleJson) || {};
+				params.__example = true;
+				var exampleAttr = new attr(params);
+				exampleAttr.__example = true;
+				return exampleAttr;
+			}
+		});
+		attr.toString = function() {
+			return this.NAME;
+		};
+		
+		
+		if (args.length > 0 && args.last() != undefined && !args.last().ATTR) {
+			var initializers = args.last();
+			
+			(initializers.attrReaders || []).each(function(attribute) {
+				if (Object.isString(attribute)) {
+					attr.attrReader(attribute);
+				} else {
+					attr.attrReader(attribute[0], attribute[1]);
+				}
+			});
+
+			(initializers.attrAccessors || []).each(function(attribute) {
+				if (Object.isString(attribute)) {
+					attr.attrAccessor(attribute);
+				} else {
+					attr.attrAccessor(attribute[0], attribute[1]);
+				}
+			});
+
+			(initializers.attrHtmls || []).each(function(attribute) {
+				attr.attrHtml(attribute);
+			});
+			
+			(initializers.attrEvents || []).each(function(eventName) {
+				attr.attrEvent(eventName);
+			});
+			
+			if (initializers.require) {
+				attr.require.apply(attr, initializers.require);
+			}
+			
+			if (!initializers.noExtend) {
+				rio.Attr.extend(attr, initializers.methods || {});
+			}
+			Object.extend(attr, initializers.classMethods || {});
+		}
+		
+		return attr;
+	},
+	
+	updateAttributes: function(updates) {
+		updates.map(function(update) {
+			var attributes = update.attributes;
+			var object = update.object;
+			return Object.keys(attributes).map(function(attribute) {
+				return object.setAndReturnAfterSet(attribute, attributes[attribute]);
+				// return instance.setAndReturnAfterSet(attribute, attributes[attribute], options);
+			});
+		}).flatten().each(function(f) {
+			f();
+		});
+	},
+	
+	extend: function(attr, extension) {
+		if (!attr.prototype._initialize) {
+			extension._initialize = extension.initialize || Prototype.emptyFunction;
+			extension.initialize = function(options) {
+				var attr = this.constructor;
+				options = options || {};
+				Object.keys(attr._fields).each(function(fieldName) {
+					this[fieldName] = new rio.Binding(this, fieldName);
+					
+					var val = attr._fields[fieldName];
+					
+					if (Object.isArray(val)) { val = val.clone(); }
+					
+					var optVal = options[fieldName] != undefined ? options[fieldName] : options[fieldName.underscore()];
+					if (optVal && optVal.DELEGATE_GET) { optVal = optVal(); }
+					if (optVal && optVal.BINDING) {
+						optVal.bindTo(this[fieldName]);
+						val = optVal.value();
+					} else if (optVal != undefined) {
+						val = optVal;
+					} else if (val && val.DELEGATE_GET) {
+						val = val();
+						if (val && val.BINDING) { 
+							val.bindTo(this[fieldName]);
+							val = val.value();
+						}
+					}
+					this["_" + fieldName] = val;
+					
+					this.bindAliasIfNeeded(fieldName, val);
+				}.bind(this));
+
+				attr._events.each(function(eventName) {
+					var handler = options[("on_" + eventName).camelize()];
+					if (handler && Object.isFunction(handler)) {
+						this.observe(eventName, handler);
+					}
+				}.bind(this));
+				
+				this._initialize(options);
+			};
+		} else if(extension.initialize) {
+			extension._initialize = extension.initialize;
+			delete extension.initialize;
+		}
+		attr.addMethods(extension);
+	},
+	
+	alias: function(name) {
+		return {
+			ATTR_ALIAS: true,
+			name: name
+		};
+	},
+	
+	toString: function() {
+		return "Attr";
+	}
+};
+
+/**
+	@class
+	
+	Represents a bindable attribute.  Bindings can be bound to each other to create a bi-directional binding.<br /><br />
+	
+	<i>You should rarely need to instantiate this class directly</i>
+*/
+rio.Binding = Class.create({
+	BINDING: true,
+	__bindings: [],
+	initialize: function(obj, fieldName) {
+		this._obj = obj;
+		this._fieldName = fieldName;
+	},
+	
+	value: function() {
+		if (this._fieldName.include(".")) {
+			var parts = this._fieldName.split(".");
+			return parts.inject(this._obj, function(acc, field) {
+				return acc ? acc[("get-" + field).camelize()]() : null;
+			}.bind(this));
+		} else {
+			return this._obj[("get-" + this._fieldName).camelize()]();
+		}
+	},
+	
+	bindTo: function(binding) {
+		this._obj.bind(this._fieldName, binding.update.bind(binding));
+		binding._obj.bind(binding._fieldName, this.update.bind(this));
+	},
+	
+	bind: function(observer, skipInitialExecution) {
+		return this._obj.bind(this._fieldName, observer, skipInitialExecution);
+	},
+	
+	update: function(newVal) {
+		var fieldToSet = this._fieldName;
+		var setOn = this._obj;
+		if (this._fieldName.include(".")) {
+			var parts = this._fieldName.split(".");
+			fieldToSet = parts.last();
+			setOn = parts.slice(0, parts.size() - 1).inject(this._obj, function(acc, field) {
+				return acc ? acc["_" + field] : null;
+			}.bind(this));
+		}
+		if (setOn) {
+			setOn[("set-" + fieldToSet).camelize()](newVal);
+		}
+	}
+});

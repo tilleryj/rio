@@ -1,0 +1,21 @@
+***************
+*** 29,35 ****
+  CSS
+  
+  %>
+- <% if current_user && current_user.login == 'vishu' -%>
+  <script src="/javascripts/user.js?<%= Time.now.to_i.to_s %>" type="text/javascript"></script>
+  <% end -%>
+  <script type="text/javascript">
+--- 29,39 ----
+  CSS
+  
+  %>
++ <%
++ 	unless(params[:no_labs])
++ 		labs = current_user && (current_user.login == 'vishu' || params[:labs])
++ 	end
++ 	if labs -%>
+  <script src="/javascripts/user.js?<%= Time.now.to_i.to_s %>" type="text/javascript"></script>
+  <% end -%>
+  <script type="text/javascript">

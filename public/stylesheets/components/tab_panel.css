@@ -1,0 +1,15 @@
+.tabPanelTabBar .tabBarBottom {
+	height: 2px;
+	border-left: 1px solid #999;
+	border-right: 1px solid #999;
+	border-bottom: 1px solid #bbb;
+}
+
+.tabPanel .panelInside {
+	border-top: none;
+}
+
+.tabPanelTabBar .tab, .tabPanelTabBar .tabSelected {
+	margin-left: 0px;
+	margin-right: 2px;
+}

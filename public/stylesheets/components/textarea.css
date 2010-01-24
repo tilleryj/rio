@@ -1,0 +1,11 @@
+.textarea {
+	border: 1px solid #bbb;
+	background-color: white;
+	padding: 3px;
+}
+
+.textarea textarea {
+	font-size: 14px;
+	background-color: transparent;
+	resize: none;
+}

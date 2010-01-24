@@ -1,0 +1,10 @@
+
+.input {
+	font-size: 14px;
+	padding: 3px;
+}
+
+.inputPlaceHolder {
+	color: #888;
+	font-style: italic;
+}

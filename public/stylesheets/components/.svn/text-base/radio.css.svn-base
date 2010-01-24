@@ -1,0 +1,9 @@
+.radio input {
+	vertical-align: top;
+}
+
+.radioLabel {
+	vertical-align: baseline;
+	font-size: 14px;
+	margin-left: 2px;
+}

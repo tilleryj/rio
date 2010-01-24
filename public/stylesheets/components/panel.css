@@ -1,0 +1,36 @@
+.panelOutside {
+	background-color: #ddd;
+	border: 1px solid #999;
+	padding: 2px;
+	-moz-border-radius: 2px;
+}
+
+.panelInside {
+	border: 1px solid #999;
+	background-color: #fff;
+	height: 100%;
+	margin: 0px;
+	overflow: hidden;
+}
+
+.panelTitle {
+	font-size: 11px;
+	line-height: 11px;
+	font-weight: 700;
+	color: #444;
+	padding: 3px 3px 5px;
+}
+
+.invisiblePanel {
+}
+
+.invisiblePanelOutside {
+	background-color: transparent;
+	border: none;
+	padding: 0px;
+}
+
+.invisiblePanelInside {
+	background-color: transparent;
+	border: none;
+}

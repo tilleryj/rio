@@ -1,0 +1,24 @@
+.accordion {
+	border: 1px solid #999;
+	border-bottom: none;
+}
+
+.accordion .pane {
+	background-color: #fff;
+}
+
+.accordion .paneBody {
+	padding: 5px;
+	border-bottom: 1px solid #bbb;
+}
+
+.accordion .paneHeader {
+	cursor: pointer;
+	color: #222;
+	padding: 3px;
+	background-color: #ddd;
+	font-size: 12px;
+	line-height: 12px;
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #bbb;
+}

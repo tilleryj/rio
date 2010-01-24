@@ -1,0 +1,2 @@
+class RioController < ApplicationController
+end

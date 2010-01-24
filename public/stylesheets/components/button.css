@@ -1,0 +1,39 @@
+.button {
+	font-family: Tahoma,Geneva,sans-serif;
+	background: #fafafa url('/images/button-gradient-overlay.png') repeat-x;
+	display: inline;
+	font-size: 12px;
+	line-height: 12px;
+	color: #222;
+	padding: 5px 10px;
+	
+	border: 1px solid #999;
+	cursor: pointer;
+
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+}
+
+.button img {
+	position: relative;
+	top: 3px;
+	left: -4px;
+}
+
+.buttonHover {
+	background-color: #DDDDFF;
+	border-color: #88a;
+}
+
+.buttonDown {
+	background-image: url('/images/button-gradient-overlay-down.png');
+}
+
+.buttonDisabled {
+	background: #fafafa url('/images/button-gradient-overlay.png') repeat-x;
+	color: #888;
+	border-color: #ccc;
+	cursor: default;
+}

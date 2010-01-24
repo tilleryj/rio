@@ -1,0 +1,151 @@
+body, html {
+	min-width: 600px;
+	width:100%;
+	height:100%;
+	overflow: hidden;
+}
+
+.scripts {
+	width: 100%;
+	height: 100%;
+	border: 1px solid white;
+	overflow: auto;
+}
+
+.log {
+	overflow: auto;
+	height: 100%;
+}
+
+.logItem, .userLogItem, .errorLogItem, .warningLogItem, .log .passed, .log .failed, .log .pending, .log .summaryPassed, .log .summaryFailed, .log .summaryPending {
+	font-family: courier;
+	font-size: 12px;
+	font-weight: 700;
+	padding: 4px 5px;
+	background-color: #eee;
+	border-bottom: 1px solid #ddd;
+}
+
+.userLogItem {
+	background-color: #fafafa;
+	font-weight: 500;
+	color: #00d;
+}
+
+.errorLogItem {
+	background-color: #FFB1B1;
+	font-weight: 500;
+	color: #000;
+}
+
+.warningLogItem {
+	background-color: #FFFECC;
+	font-weight: 500;
+	color: #8B0108;
+}
+
+.log .passed {
+	color: #386600;
+	background-color: #E2FBCF;
+}
+
+.log .failed {
+	color: white;
+	background-color: #BA0400;
+}
+
+.log .pending {
+	color: #666100;
+	background-color: #EBE972;
+}
+
+.log .summaryPassed {
+	color: #386600;
+	padding: "6px 5px";
+}
+.log .summaryFailed {
+	color: #BA0400;
+	padding: "6px 5px";
+}
+.log .summaryPending {
+	color: #A9A102;
+	padding: "6px 5px";
+}
+
+.prompt {
+	font-family: courier;
+	width: 100%;
+	padding: 3px 5px 3px 31px;
+	border: none;
+	border-top: 1px solid #888;
+	font-size: 12px;
+	margin-bottom: 3px;
+}
+
+.promptArrows {
+	font-family: Helvetica,Arial,sans serif;
+	color: #00d;
+	position: absolute;
+	left: 4px;
+	top: 5px;
+	font-size: 11px;
+}
+
+.docListCell {
+	vertical-align: top; 
+	width: 200px;
+	height: 100%;
+}
+
+.docSepCell {
+	width: 5px; 
+	background-color: #ccc;
+	height: 100%;
+}
+
+.docContentCell {
+	height: 100%;
+}
+
+.editableTextInput {
+	border: none;
+	padding: 5px;
+}
+
+.editableTextInputHover {
+	border: 1px solid #8287BF;
+	padding: 4px;
+}
+
+.editableTextInputFocus {
+	border: 1px solid #20245B;
+	padding: 4px;
+}
+
+.pushConnectionIndicator {
+	position: absolute;
+	right: 10px;
+	top: 9px;
+}
+
+.benchmarkButtons {
+	text-align: right;
+	border-top: 1px solid #ccc;
+	background-color: #ddd;
+	padding: 5px 10px;
+	padding-right: 10px;
+}
+
+.benchmarkButtons button {
+	margin-right: 10px;
+}
+
+.benchmarkTrashCan {
+	position: relative;
+	top: 3px;
+}
+
+.benchmarkDisabled {
+	color: #888;
+	font-style: italic;
+}

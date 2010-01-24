@@ -1,0 +1,2 @@
+pages/<%= file_name %>_page
+apps/<%= file_name %>
