@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require "rio/path"
+require "rio/autospec"
+
+JUGGERNAUT_PID_FILE = "tmp/pids/juggernaut.pid"
+
+def kill_juggernaut
+  return unless File.exist?(JUGGERNAUT_PID_FILE)
+  system("kill #{File.read(JUGGERNAUT_PID_FILE).strip}")
+  system("rm #{JUGGERNAUT_PID_FILE}")
+end
+
+def start_juggernaut
+  kill_juggernaut
+  system("juggernaut -d -P #{JUGGERNAUT_PID_FILE} -c config/juggernaut.yml -l log/juggernaut.log")
+end
+
+def start_autospec
+  fork do
+    require "rio/autospec"
+
+    AutoSpec.run
+  end
+end
+
+def start_server
+  system("script/server #{ARGV}")
+end
+
+start_juggernaut
+start_autospec
+start_server
+
+kill_juggernaut
+

@@ -40,6 +40,7 @@ module Rio
       install_items! File.join('..', 'public', 'javascripts', 'lib', 'environment.js'), File.join('public', 'javascripts', 'lib')
       install_items! File.join('config')
       install_items! File.join('lib')
+      install_items! File.join('script')
     end
     
     def self.add_gem_require_to_environment!
@@ -47,6 +48,10 @@ module Rio
       gsub_file 'config/environment.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
         "#{match}\n  config.gem \"rio\"\n"
       end
+    end
+    
+    def self.add_juggernaut_config
+      system('juggernaut -g config/juggernaut.yml')
     end
     
     def self.mkdir!(path)

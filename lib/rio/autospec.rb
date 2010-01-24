@@ -1,7 +1,8 @@
 ENV['RAILS_ENV'] = "development"
 
 require 'find'
-require File.join(File.dirname(__FILE__), 'juggernaut')
+require 'rio/juggernaut'
+require 'rio/path'
 
 class AutoSpec
   def self.run
