@@ -151,7 +151,7 @@ class RioCompressor
     sub_path = File.join("public", "stylesheets", t + ".css")
     app_path = File.join(self.root, sub_path)
     rio_path = File.join(self.rio_root, sub_path)
-    
+
     File.read(File.exists?(app_path) ? app_path : rio_path)
   end
 
@@ -202,11 +202,11 @@ class RioCompressor
   private
 
   def self.root
-    File.join(File.dirname(__FILE__), "..", "..", "..", "..")
+    RAILS_ROOT
   end
 
   def self.rio_root
-    File.join(root, "vendor", "plugins", "rio_on_rails")
+    Rio::ROOT
   end
   
   def self.js_root

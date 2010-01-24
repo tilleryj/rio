@@ -1,2 +1,10 @@
-pages/<%= file_name %>_page
-apps/<%= file_name %>
+scripts:
+  - pages/<%= file_name %>_page
+  - apps/<%= file_name %>
+templates:
+  - pages/<%= file_name %>_page
+stylesheets:
+  - components/notification
+  - pages/<%= file_name %>_page
+  - <%= file_name %>
+  - css_reset

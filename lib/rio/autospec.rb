@@ -12,7 +12,7 @@ class AutoSpec
 
   def initialize
     root = File.join(File.dirname(__FILE__), "..", "..", "..", "..")
-    rio_root = File.join(root, "vendor", "plugins", "rio_on_rails")
+    rio_root = Rio::ROOT
     js_root = File.join(root, "public", "javascripts")
     rio_js_root = File.join(rio_root, "public", "javascripts")
     css_root = File.join(root, "public", "stylesheets")
