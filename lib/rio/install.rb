@@ -9,6 +9,7 @@ module Rio
       self.create_public_directories!
       self.install_dependencies!
       self.add_gem_require_to_environment!
+      self.add_juggernaut_config!
       self.print_readme
     end
     
@@ -50,7 +51,7 @@ module Rio
       end
     end
     
-    def self.add_juggernaut_config
+    def self.add_juggernaut_config!
       system('juggernaut -g config/juggernaut.yml')
     end
     
