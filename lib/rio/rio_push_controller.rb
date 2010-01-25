@@ -43,6 +43,6 @@ class RioPushController < ApplicationController
   end
   
   def test_connection
-    render :text => Rio::Push.show_clients.detect {|c| c["session_id"] == session.session_id} ? "CONNECTED" : "NOT_CONNECTED"
+    render :text => Rio::Push.show_connected_clients.detect {|c| c["session_id"] == session.session_id} ? "CONNECTED" : "NOT_CONNECTED"
   end
 end

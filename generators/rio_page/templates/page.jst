@@ -1,5 +1,64 @@
-<div class="page">
-	<h1 style="color: #690502; font-size: 24px; font-weight: 700">Welcome to Rio</h1>
-	<br />
-	<div>Get started by replacing this template with your own page.</div>
+<%- page_class = class_name.sub(/./) { |a| a.downcase } + "Page" %>
+<div class="<%= page_class %>">
+	<div style="width: 700px; margin: 0px auto; padding-top: 30px">
+		<h1 style="color: #666; font-size: 24px;">
+			<img src="/images/rio-logo.png" style="vertical-align: middle; margin: 0px 30px 10px 0px" />
+			desktop quality, real-time applications
+		</h1>
+		
+		<div style="width: 200px; float: right; font-size: 12px">
+			<div style="padding-left: 30px; line-height: 20px">
+				<h4 style="font-size: 14px; font-weight: 700; color: #333; border-bottom: 1px solid #ccc; padding-bottom: 3px; margin-bottom: 10px">
+					Documentation
+				</h4>
+				<a href="http://riojs.com">Official rio:js homepage</a><br />
+				<a href="#" onclick="rio.console.window.rio.app.getCurrentPage().getDocsTab().setSelected(true); rio.console.window.focus()">
+					Rio API in the console
+				</a>
+
+				<h4 style="font-size: 14px; font-weight: 700; color: #333; border-bottom: 1px solid #ccc; padding-bottom: 3px; margin: 25px 0px 10px">
+					Tutorials
+				</h4>
+				<a href="http://riojs.com/screencast">Getting started screencast</a><br />
+
+				<h4 style="font-size: 14px; font-weight: 700; color: #333; border-bottom: 1px solid #ccc; padding-bottom: 3px; margin: 25px 0px 10px">
+					Getting help
+				</h4>
+				<a href="mailto:tilleryj@thinklinkr.com">tilleryj@thinklinkr.com</a><br />
+			</div>
+		</div>
+		<div style="width: 456px; background-color: #fff; border: 2px solid #ccc; padding: 15px 35px 15px 15px">
+			<h2 style="font-size: 24px; color: #333; font-weight: 700; border-bottom: 1px solid #ccc; padding-bottom: 8px; margin-left: 30px">
+				So what do I do now?
+			</h2>
+			<ol style="list-style-type: decimal; margin-left: 30px; margin-top: 25px; color: #999">
+				<li style="margin-bottom: 20px">
+					<h3 style="font-size: 17px; color: #333">Start by editing this page (pages/todo.jst)</h3>
+					<p style="font-size: 12px; color: #666; margin-top: 6px">
+						Templates in rio are as simple as html but introduce powerful components that allow you to 
+						quickly build desktop like apps that bind data to and from your rails server.
+					</p>
+				</li>
+				<li style="margin-bottom: 20px">
+					<h3 style="font-size: 17px; color: #333">Integrate some models</h3>
+					<p style="font-size: 12px; color: #666; margin-top: 6px">
+						Models in rio work a lot like they do in rails. One difference is that they introduce 
+						realtime client-server bindings. Check out <a href="http://riojs.com/bindings">this writeup</a> for more details.
+					</p>
+				</li>
+				<li style="margin-bottom: 20px">
+					<h3 style="font-size: 17px; color: #333">Open another browser to see real-time collaboration</h3>
+					<p style="font-size: 12px; color: #666; margin-top: 6px">
+						One of the most compelling features of rio is real-time collaboration. You get it for free!
+					</p>
+				</li>
+				<li style="margin-bottom: 20px">
+					<h3 style="font-size: 17px; color: #333">Watch some tutorial, read the docs, and play</h3>
+					<p style="font-size: 12px; color: #666; margin-top: 6px">
+						There are way too many features of rio to enumerate here. Have fun!
+					</p>
+				</li>
+			</ol>
+		</div>
+	</div>
 </div>

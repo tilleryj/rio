@@ -575,7 +575,7 @@ module Rio
       if(model.broadcast_mode == :strict)
         instance.broadcast_to
       else
-        Rio::Push.show_clients.map { |c| c["id"] || c["client_id"] }
+        Rio::Push.show_connected_clients.map { |c| c["id"] || c["client_id"] }
       end
     end
     

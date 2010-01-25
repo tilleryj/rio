@@ -8,6 +8,6 @@ body {
 }
 
 .<%= page_class %> {
-	background-color: #fff;
+	background-color: #eee;
 	font-size: 18px;
 }

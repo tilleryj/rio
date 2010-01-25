@@ -13,7 +13,7 @@ Object.extend(rio.environment, {
 		// bootCompressed: true
 	}
 });
-	
+
 rio.environments = {
 	development: {
 		console: true,

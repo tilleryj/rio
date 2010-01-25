@@ -3,6 +3,7 @@ ENV['RAILS_ENV'] = "development"
 require 'find'
 require 'rio/juggernaut'
 require 'rio/path'
+require 'active_support'
 
 class AutoSpec
   def self.run
