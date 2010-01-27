@@ -190,7 +190,7 @@ ul.inheritsList
 	related to attributes, bindings, dependency management, and events.
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/public_javascripts_lib_attr.js.html">attr.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/_Users_tilleryj_projects_rio_doc_test_vendor_gems_rio-0.0.0_public_javascripts_lib_attr.js.html">attr.js</a>.
 				
 			</p>
 
@@ -236,18 +236,9 @@ ul.inheritsList
 					<tbody>
 					
 						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">rio.Attr.<b><a href="../symbols/rio.Attr.html#.alias">alias</a></b>(name)
-								</div>
-								<div class="description"></div>
-							</td>
-						</tr>
-					
-						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/rio.Attr.html#bind">bind</a></b>(attribute, binding, skipInitialExecution)
+								<div class="fixedFont"><b><a href="../symbols/rio.Attr.html#bind">bind</a></b>(attribute, binding, skipInitialExecution, overrideInitialOldValue)
 								</div>
 								<div class="description">Binds a function to an attribute.</div>
 							</td>
@@ -292,6 +283,33 @@ ul.inheritsList
 						</tr>
 					
 						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">rio.Attr.<b><a href="../symbols/rio.Attr.html#.fireWhenReady">fireWhenReady</a></b>(f)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rio.Attr.html#freeze">freeze</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rio.Attr.html#frozen">frozen</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/rio.Attr.html#observe">observe</a></b>(eventName, handler)
@@ -322,6 +340,24 @@ ul.inheritsList
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">rio.Attr.<b><a href="../symbols/rio.Attr.html#.toString">toString</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">rio.Attr.<b><a href="../symbols/rio.Attr.html#.transaction">transaction</a></b>(t)
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rio.Attr.html#unfreeze">unfreeze</a></b>()
 								</div>
 								<div class="description"></div>
 							</td>
@@ -391,47 +427,11 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
-					<a name=".alias"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">rio.Attr.</span><b>alias</b>(name)
-					
-					</div>
-					<div class="description">
-						
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<b>name</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
 					<a name="bind"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>bind</b>(attribute, binding, skipInitialExecution)
+					<b>bind</b>(attribute, binding, skipInitialExecution, overrideInitialOldValue)
 					
 					</div>
 					<div class="description">
@@ -471,6 +471,12 @@ ul.inheritsList
 									
 								</dt>
 								<dd>(optional) Do <b>not</b> immediately call the function with the attributes current value</dd>
+							
+								<dt>
+									<b>overrideInitialOldValue</b>
+									
+								</dt>
+								<dd></dd>
 							
 							</dl>
 						
@@ -673,6 +679,92 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name=".fireWhenReady"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">rio.Attr.</span><b>fireWhenReady</b>(f)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>f</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="freeze"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>freeze</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="frozen"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>frozen</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="observe"> </a>
 					<div class="fixedFont">
 					
@@ -830,6 +922,67 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name=".transaction"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">rio.Attr.</span><b>transaction</b>(t)
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>t</b>
+									
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="unfreeze"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>unfreeze</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="updateAttributes"> </a>
 					<div class="fixedFont">
 					
@@ -916,7 +1069,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://www.jsdoctoolkit.org/" target="_blank">JsDoc Toolkit</a> 2.0.2 on Fri Jun 26 2009 10:58:23 GMT-0500 (CDT)
+			Documentation generated by <a href="http://www.jsdoctoolkit.org/" target="_blank">JsDoc Toolkit</a> 2.0.2 on Wed Jan 27 2010 00:44:01 GMT-0600 (CST)
 		</div>
 	</body>
 </html>

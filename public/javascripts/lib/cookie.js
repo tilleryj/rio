@@ -38,6 +38,12 @@ rio.Cookie = {
 		}
 	},
 	
+	/**
+		Set a default value for a cookie if the cookie is not yet defined
+		
+		@param {String} name The name of the cookie to set.
+		@param {Object} value The default value to set in the cookie.
+	*/
 	setDefault: function(name, value) {
 		if (document.cookie.match(this.key + name + '=(.*?)(;|$)') == undefined) {
 			this.set(name, value);
