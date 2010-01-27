@@ -21,7 +21,7 @@ end
 
 desc "Update the rio docs"
 task :jsdoc do
-  rio_js_root = File.join(File.dirname(__FILE__), "public", "javascripts")
+  rio_js_root = File.join("public", "javascripts")
 
   js_doc_output = File.join(rio_js_root, "lib", "console", "docs")
   rio_build_path = File.join(rio_js_root, "lib", "rio.build")
