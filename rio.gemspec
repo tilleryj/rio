@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   EOF
   
   s.add_dependency('packr')
-  s.add_dependency('tilleryj-juggernaut')
+  s.add_dependency('juggernaut')
   
   s.files = Dir[
     "init.rb",
