@@ -32,7 +32,6 @@ rio.components.Docs = rio.Component.create(rio.components.Box, "Docs", {
 			var listview = new rio.components.ListView({
 				items: [
 					"rio",
-					"rio.AIM",
 					"rio.Application",
 					"rio.Attr",
 					"rio.Binding",
