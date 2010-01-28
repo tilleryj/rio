@@ -19,26 +19,6 @@ module Juggernaut
       send_data(fc)
     end
     
-    # For testing and demos - not useful in production
-    def log_to_all(message)
-      js_escape_map = {
-        '\\'    => '\\\\',
-        '</'    => '<\/',
-        "\r\n"  => '\n',
-        "\n"    => '\n',
-        "\r"    => '\n',
-        '"'     => '\\"',
-        "'"     => "\\'" 
-      }
-      message = (message || '').gsub(/(\\|<\/|\r\n|[\n\r"'])/) { js_escape_map[$1] }
-
-      Juggernaut.send_to_all(
-        <<-EOM
-          rio.log("#{message}", "logItem", "");
-        EOM
-      )
-    end
-    
     def send_to_channels(data, channels)
       fc = {
         :command   => :broadcast,

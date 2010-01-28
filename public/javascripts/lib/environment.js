@@ -4,7 +4,6 @@ Object.extend(rio.environment, {
 	pushPort: 5001,
 	pushUrl: "127.0.0.1",
 	pushOptions: {},
-	pushDebug: false,
 
 	logEventErrors: false,
 	failOnBootError: false,
@@ -20,11 +19,13 @@ rio.environments = {
 		console: true,
 		autospec: true,
 		autocss: true,
+		pushDebug: true,
 		logEventErrors: true,
 		failOnBootError: true
 	},
 	
 	production: {
-		giveWarnings: false
+		giveWarnings: false,
+		pushDebug: false
 	}
 };

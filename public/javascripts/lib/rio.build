@@ -12,6 +12,7 @@ lib/swfobject
 lib/delayed_task
 lib/push
 lib/juggernaut
+lib/ajax_file_upload
 lib/layout_manager
 lib/inflector
 lib/attr

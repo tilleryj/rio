@@ -32,6 +32,7 @@ rio.components.Docs = rio.Component.create(rio.components.Box, "Docs", {
 			var listview = new rio.components.ListView({
 				items: [
 					"rio",
+					"rio.AIM",
 					"rio.Application",
 					"rio.Attr",
 					"rio.Binding",
@@ -52,7 +53,7 @@ rio.components.Docs = rio.Component.create(rio.components.Box, "Docs", {
 			});
 			listview.bind("selectedItem", function(item) {
 				if (item) {
-					this.docFrameHtml().src = "docs/symbols/" + item + ".html?" + Math.random();
+					this.docFrameHtml().src = "docs/symbols/" + item + ".html";
 				}
 			}.bind(this));
 			listview.html().setStyle({

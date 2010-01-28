@@ -7,33 +7,6 @@
 	@extends rio.Attr
 */
 rio.Application = {
-	/**
-		Creates an instance of rio.Application.
-		
-		@param {String} name (optional) The name of this Application.  Used primarily for testing reports.
-		@param {Object} extends (optional) An Attr class to use as a superclass.
-		@param {Object} args (optional) The definition of the class.
-		@returns a new instance of type Application
-		@type rio.Application
-		@example
-		rio.apps.example = rio.Application.create({
-			require: ["pages/example_page"],
-			requireCss: ["css_reset", "example"],
-			routes: {
-				"": "examplePage"
-			},
-			attrAccessors: [],
-			attrReaders: [],
-			methods: {
-				initialize: function(options) {
-				},
-
-				examplePage: function() {
-					return new rio.pages.ExamplePage();
-				}
-			}
-		});
-	*/
 	create: function() {
 		var args = $A(arguments);
 		if (args.length > 0 && args.last() != undefined && !args.last().ATTR) {
@@ -41,19 +14,12 @@ rio.Application = {
 		}
 		var app = rio.Attr.create.apply(this, args);
 
-		app.addMethods(
-			/**
-				@scope rio.Application.prototype
-			*/
-		{
-			
-			/** @private */
+		app.addMethods({
 			initHistory: function() {				
 				dhtmlHistory.initialize();
 				dhtmlHistory.addListener(this.applyHistoryEntry.bind(this));
 			},
 			
-			/** @private */
 			applyHistoryEntry: function(location, historyData) {
 				if (this.__revertingTransientHistoryEntry) {
 					this.addHistoryEntry(this.__revertingTransientHistoryEntry[0], this.__revertingTransientHistoryEntry[1]);
@@ -63,7 +29,6 @@ rio.Application = {
 				}
 			},
 			
-			/** @private */
 			addHistoryEntry: function(location, transient) {
 				if (historyStorage.hasKey(this.getCurrentLocation()) && historyStorage.get(this.getCurrentLocation()).transient) {
 					this.__revertingTransientHistoryEntry = [location, transient];
@@ -73,12 +38,10 @@ rio.Application = {
 				}
 			},
 			
-			/** @private */
 			resize: function() {
 				this.getCurrentPage().resize();
 			},
 			
-			/** @private */
 			keyPress: function(e) {
 				var currentPage = this.getCurrentPage();
 				if (currentPage) {
@@ -86,7 +49,6 @@ rio.Application = {
 				}
 			},
 
-			/** @private */
 			keyDown: function(e) {
 				var keyMap = this.getKeyMap();
 				if (keyMap) {
@@ -98,17 +60,10 @@ rio.Application = {
 				}
 			},
 			
-			/**
-				This method is called just before the page is unloaded. This can be triggered by
-				following a link, closing the window, using the back button, etc.
-				
-				<i>This method is meant to be overriden</i>
-			*/
 			unload: function() {
 				// meant to be overriden
 			},
 			
-			/** @private */
 			getKeyMap: function() {
 				if (this._keyMap) { return this._keyMap; }
 				if (!this.keyMap) { return; }
@@ -118,7 +73,6 @@ rio.Application = {
 				return this._keyMap;
 			},
 			
-			/** @private */
 			launch: function() {
 				document.observe("keypress", this.keyPress.bind(this));
 				document.observe("keydown", this.keyDown.bind(this));
@@ -139,22 +93,18 @@ rio.Application = {
 				this._launched = true;
 			},
 			
-			/** @private */
 			launched: function() {
 				return this._launched || false;
 			},
 			
-			/** @private */
 			noRoutes: function() {
 				return (app.__routes == undefined) || ($H(app.__routes).keys().size() == 0);
 			},
 			
-			/** @private */
 			avoidAnimation: function() {
 				return Prototype.Browser.IE;
 			},
 			
-			/** @private */
 			matchRoutePath: function(path) {
 				return Object.keys(app.__routes).detect(function(routePath) {
 					if (routePath == "") { return true; }
@@ -168,12 +118,10 @@ rio.Application = {
 				});
 			},
 			
-			/** @private */
 			matchRouteTarget: function(path) {
 				return app.__routes[this.matchRoutePath(path)];
 			},
 			
-			/** @private */
 			remainingPath: function(path) {
 				var match = this.matchRoutePath(path);
 				if (match == "") { return path; }
@@ -184,7 +132,6 @@ rio.Application = {
 				return path.split("/").slice(matchLength).join("/");
 			},
 			
-			/** @private */
 			pathParts: function(path) {
 				var parts = {};
 				var pathParts = path.split("/");
@@ -198,7 +145,6 @@ rio.Application = {
 				return parts;
 			},
 			
-			/** @private */
 			navigateTo: function(path, noHistoryEntry) {
 				var subPath = this.matchRoutePath(path);
 				var target = this.matchRouteTarget(path);
@@ -239,7 +185,6 @@ rio.Application = {
 				page.applyHistoryEntry(remainingPath, pathParts);
 			},
 			
-			/** @private */
 			clearPage: function() {
 				Element.body().childElements().each(function(elt) {
 					if (elt.tagName.toLowerCase() == 'iframe' || elt.id == 'rshStorageForm' || elt.id == 'rshStorageField' || elt.id == 'juggernaut_flash' || elt.hasClassName("preserve")) {
@@ -250,45 +195,28 @@ rio.Application = {
 				});
 			},
 			
-			/**
-				Refreshes the browser. This will reload your app's source code
-				and reinitialize your app. This is more severe than rebooting.
-			*/
 			refresh: function() {
 				document.location.reload();
 			},
 			
-			/**
-				Reboots your application. Rebooting your application will reset and reload the
-				current page.
-			*/
 			reboot: function() {
 				this.clearPage();
 				this.setCurrentPage(null);
 				this.navigateTo(this.getCurrentLocation());
 			},
 			
-			/** @private */
 			getCurrentLocation: function() {
 				return dhtmlHistory.getCurrentLocation();
 			},
 
-			/**
-				Returns the instance of the currently loaded page in the app.
-				
-				@returns the instance of the currently loaded page
-				@type rio.Page
-			*/
 			getCurrentPage: function() {
 				return this._currentPage;
 			},
 
-			/** @private */
 			setCurrentPage: function(page) {
 				this._currentPage = page;
 			},
 			
-			/** @private */
 			rootUrl: function() {
 				return document.location.protocol + "//" + document.location.host;
 			},
@@ -298,17 +226,7 @@ rio.Application = {
 			}
 		});
 		
-		Object.extend(app, 
-			/**
-				@scope rio.Application
-			*/
-		{
-			/**
-				Specifies the lowest priority route for an application class.
-				
-				<b>You are better off specifying routes when creating an 
-				application with a 'routes' parameter.</b>
-			*/
+		Object.extend(app, {
 			route: function(path, target){
 				if (!this.__routes) { this.__routes = {}; }
 				this.__routes[path] = target;
@@ -339,31 +257,20 @@ rio.Application = {
 		return app;
 	},
 	
-	/** @private */
 	extend: function(app, extension) {
 		rio.Attr.extend(app, extension);
 	},
-
-	/**
-		Alias of rio.Application.require
-		
-		@param {String} fileName The path to the javascript file that will be loaded.
-	*/
+	
 	include: function(fileName) {
 		this.require(fileName);
 		// rio.boot.loadFile(fileName);
 	},
 	
-	/**
-		Alias of rio.Application.require
-		
-		@param {String} fileName The path to the javascript file that will be loaded.
-	*/
 	require: function(fileName) {
 		rio.require(fileName);
 	},
 
-	/** @private */
+
 	injectCss: function() {
 		var toLoad = [];
 		rio.boot.loadedStylesheets.each(function(s) {
@@ -388,12 +295,9 @@ rio.Application = {
 	},
 
 	/*
-		Requires a css file
-		
-		@param {String} toInclude The path to the stylesheet that will be loaded.
+		Because of a bug in IE, we need to remove and readd all link tags every time a new one is added.
 	*/
 	includeCss: function(toInclude) {
-		// Because of a bug in IE, we need to remove and readd all link tags every time a new one is added.
 		var include = function(fileName) {
 			if (rio.boot.loadedStylesheets.include(fileName)) { return; }
 			rio.boot.loadedStylesheets.push(fileName);
@@ -421,20 +325,15 @@ rio.Application = {
 		}
 	},
 	
-	/** @private */
 	getToken: function() {
 		return this._token || rio.environment.railsToken;
 	},
 
-	/** @private */
 	setToken: function(token) {
 		this._token = token;
 	},
 	
-	/** @private */
 	_afterLaunchFunctions: [],
-
-	/** @private */
 	afterLaunch: function(afterLoadFunction) {
 		if (rio.app && rio.app.launched()) { 
 			afterLoadFunction(rio.app);
@@ -443,13 +342,6 @@ rio.Application = {
 		}
 	},
 	
-	/**
-		This causes the application to fail and log a 'fail' error message. If the application class
-		has a fail method, that method will be called with the message passed in here.
-		
-		@param {String} msg The application failure message
-		@param {String} msg A more in depth description of the application failure
-	*/
 	fail: function(msg, description) {
 		try {
 			if (rio.app && rio.app.fail) {
