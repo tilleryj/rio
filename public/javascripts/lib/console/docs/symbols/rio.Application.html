@@ -239,45 +239,27 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">rio.Application.<b><a href="../symbols/rio.Application.html#.afterLaunch">afterLaunch</a></b>(afterLoadFunction)
+								<div class="fixedFont">rio.Application.<b><a href="../symbols/rio.Application.html#.create">create</a></b>(name, extends, args)
 								</div>
-								<div class="description"></div>
+								<div class="description">Creates an instance of rio.Application.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">rio.Application.<b><a href="../symbols/rio.Application.html#.create">create</a></b>()
+								<div class="fixedFont">rio.Application.<b><a href="../symbols/rio.Application.html#.fail">fail</a></b>(msg, msg)
 								</div>
-								<div class="description"></div>
+								<div class="description">This causes the application to fail and log a 'fail' error message.</div>
 							</td>
 						</tr>
 					
 						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">rio.Application.<b><a href="../symbols/rio.Application.html#.extend">extend</a></b>(app, extension)
+								<div class="fixedFont"><b><a href="../symbols/rio.Application.html#getCurrentPage">getCurrentPage</a></b>()
 								</div>
-								<div class="description"></div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">rio.Application.<b><a href="../symbols/rio.Application.html#.fail">fail</a></b>(msg, description)
-								</div>
-								<div class="description"></div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">rio.Application.<b><a href="../symbols/rio.Application.html#.getToken">getToken</a></b>()
-								</div>
-								<div class="description"></div>
+								<div class="description">Returns the instance of the currently loaded page in the app.</div>
 							</td>
 						</tr>
 					
@@ -286,7 +268,7 @@ ul.inheritsList
 							<td class="nameDescription">
 								<div class="fixedFont">rio.Application.<b><a href="../symbols/rio.Application.html#.include">include</a></b>(fileName)
 								</div>
-								<div class="description"></div>
+								<div class="description">Alias of rio.Application.require</div>
 							</td>
 						</tr>
 					
@@ -300,11 +282,20 @@ ul.inheritsList
 						</tr>
 					
 						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">rio.Application.<b><a href="../symbols/rio.Application.html#.injectCss">injectCss</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/rio.Application.html#reboot">reboot</a></b>()
 								</div>
-								<div class="description"></div>
+								<div class="description">Reboots your application.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rio.Application.html#refresh">refresh</a></b>()
+								</div>
+								<div class="description">Refreshes the browser.</div>
 							</td>
 						</tr>
 					
@@ -313,14 +304,23 @@ ul.inheritsList
 							<td class="nameDescription">
 								<div class="fixedFont">rio.Application.<b><a href="../symbols/rio.Application.html#.require">require</a></b>(fileName)
 								</div>
-								<div class="description"></div>
+								<div class="description">Alias of rio.Application.require</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">rio.Application.<b><a href="../symbols/rio.Application.html#.setToken">setToken</a></b>(token)
+								<div class="fixedFont">rio.Application.<b><a href="../symbols/rio.Application.html#.route">route</a></b>(path, target)
+								</div>
+								<div class="description">Specifies the lowest priority route for an application class.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rio.Application.html#toString">toString</a></b>()
 								</div>
 								<div class="description"></div>
 							</td>
@@ -335,13 +335,22 @@ ul.inheritsList
 							</td>
 						</tr>
 					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rio.Application.html#unload">unload</a></b>()
+								</div>
+								<div class="description">This method is called just before the page is unloaded.</div>
+							</td>
+						</tr>
+					
 					</tbody>
 				</table>
 				
 				
 				
 				<dl class="inheritsList">
-				<dt>Methods borrowed from class <a href="../symbols/rio.Attr.html#constructor">rio.Attr</a>: </dt><dd><a href="../symbols/rio.Attr.html#bind">bind</a>, <a href="../symbols/rio.Attr.html#binding">binding</a>, <a href="../symbols/rio.Attr.html#fire">fire</a>, <a href="../symbols/rio.Attr.html#.fireWhenReady">fireWhenReady</a>, <a href="../symbols/rio.Attr.html#freeze">freeze</a>, <a href="../symbols/rio.Attr.html#frozen">frozen</a>, <a href="../symbols/rio.Attr.html#observe">observe</a>, <a href="../symbols/rio.Attr.html#setAndReturnAfterSet">setAndReturnAfterSet</a>, <a href="../symbols/rio.Attr.html#stopObserving">stopObserving</a>, <a href="../symbols/rio.Attr.html#.transaction">transaction</a>, <a href="../symbols/rio.Attr.html#unfreeze">unfreeze</a>, <a href="../symbols/rio.Attr.html#.updateAttributes">updateAttributes</a></dd>
+				<dt>Methods borrowed from class <a href="../symbols/rio.Attr.html#constructor">rio.Attr</a>: </dt><dd><a href="../symbols/rio.Attr.html#bind">bind</a>, <a href="../symbols/rio.Attr.html#binding">binding</a>, <a href="../symbols/rio.Attr.html#.extend">extend</a>, <a href="../symbols/rio.Attr.html#fire">fire</a>, <a href="../symbols/rio.Attr.html#.fireWhenReady">fireWhenReady</a>, <a href="../symbols/rio.Attr.html#freeze">freeze</a>, <a href="../symbols/rio.Attr.html#frozen">frozen</a>, <a href="../symbols/rio.Attr.html#observe">observe</a>, <a href="../symbols/rio.Attr.html#setAndReturnAfterSet">setAndReturnAfterSet</a>, <a href="../symbols/rio.Attr.html#stopObserving">stopObserving</a>, <a href="../symbols/rio.Attr.html#.transaction">transaction</a>, <a href="../symbols/rio.Attr.html#unfreeze">unfreeze</a>, <a href="../symbols/rio.Attr.html#.updateAttributes">updateAttributes</a></dd>
 				</dl>
 				
 			
@@ -385,79 +394,38 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
-					<a name=".afterLaunch"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">rio.Application.</span><b>afterLaunch</b>(afterLoadFunction)
-					
-					</div>
-					<div class="description">
-						
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<b>afterLoadFunction</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
 					<a name=".create"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
-					
-					<span class="light">rio.Application.</span><b>create</b>()
+					<span class="light">{<a href="../symbols/rio.Application.html#constructor">rio.Application</a>}</span>
+					<span class="light">rio.Application.</span><b>create</b>(name, extends, args)
 					
 					</div>
 					<div class="description">
-						
+						Creates an instance of rio.Application.
 						
 						
 					</div>
 					
 					
 					
-						
-						
-						
-						
-						
-						
-						
+					<pre class="code">		rio.apps.example = rio.Application.create({
+			require: ["pages/example_page"],
+			requireCss: ["css_reset", "example"],
+			routes: {
+				"": "examplePage"
+			},
+			attrAccessors: [],
+			attrReaders: [],
+			methods: {
+				initialize: function(options) {
+				},
 
-					<hr />
-				
-					<a name=".extend"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">rio.Application.</span><b>extend</b>(app, extension)
-					
-					</div>
-					<div class="description">
-						
-						
-						
-					</div>
+				examplePage: function() {
+					return new rio.pages.ExamplePage();
+				}
+			}
+		});</pre>
 					
 					
 					
@@ -466,22 +434,35 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>app</b>
+									<span class="light fixedFont">{String}</span> <b>name</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>(optional) The name of this Application.  Used primarily for testing reports.</dd>
 							
 								<dt>
-									<b>extension</b>
+									<span class="light fixedFont">{<a href="../symbols/Object.html#constructor">Object</a>}</span> <b>extends</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>(optional) An Attr class to use as a superclass.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/Object.html#constructor">Object</a>}</span> <b>args</b>
+									
+								</dt>
+								<dd>(optional) The definition of the class.</dd>
 							
 							</dl>
 						
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>a new instance of type Application</dd>
+							
+							</dl>
 						
 						
 						
@@ -492,11 +473,12 @@ ul.inheritsList
 					<div class="fixedFont">&lt;static&gt; 
 					
 					
-					<span class="light">rio.Application.</span><b>fail</b>(msg, description)
+					<span class="light">rio.Application.</span><b>fail</b>(msg, msg)
 					
 					</div>
 					<div class="description">
-						
+						This causes the application to fail and log a 'fail' error message. If the application class
+		has a fail method, that method will be called with the message passed in here.
 						
 						
 					</div>
@@ -508,16 +490,16 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>msg</b>
+									<span class="light fixedFont">{String}</span> <b>msg</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The application failure message</dd>
 							
 								<dt>
-									<b>description</b>
+									<span class="light fixedFont">{String}</span> <b>msg</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>A more in depth description of the application failure</dd>
 							
 							</dl>
 						
@@ -530,15 +512,15 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name=".getToken"> </a>
-					<div class="fixedFont">&lt;static&gt; 
+					<a name="getCurrentPage"> </a>
+					<div class="fixedFont">
 					
-					
-					<span class="light">rio.Application.</span><b>getToken</b>()
+					<span class="light">{<a href="../symbols/rio.Page.html#constructor">rio.Page</a>}</span>
+					<b>getCurrentPage</b>()
 					
 					</div>
 					<div class="description">
-						
+						Returns the instance of the currently loaded page in the app.
 						
 						
 					</div>
@@ -549,6 +531,13 @@ ul.inheritsList
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>the instance of the currently loaded page</dd>
+							
+							</dl>
 						
 						
 						
@@ -563,7 +552,7 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						
+						Alias of rio.Application.require
 						
 						
 					</div>
@@ -575,10 +564,10 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>fileName</b>
+									<span class="light fixedFont">{String}</span> <b>fileName</b>
 									
 								</dt>
-								<dd></dd>
+								<dd>The path to the javascript file that will be loaded.</dd>
 							
 							</dl>
 						
@@ -627,15 +616,42 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name=".injectCss"> </a>
-					<div class="fixedFont">&lt;static&gt; 
+					<a name="reboot"> </a>
+					<div class="fixedFont">
 					
 					
-					<span class="light">rio.Application.</span><b>injectCss</b>()
+					<b>reboot</b>()
 					
 					</div>
 					<div class="description">
+						Reboots your application. Rebooting your application will reset and reload the
+				current page.
 						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="refresh"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>refresh</b>()
+					
+					</div>
+					<div class="description">
+						Refreshes the browser. This will reload your app's source code
+				and reinitialize your app. This is more severe than rebooting.
 						
 						
 					</div>
@@ -660,7 +676,7 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						
+						Alias of rio.Application.require
 						
 						
 					</div>
@@ -672,7 +688,52 @@ ul.inheritsList
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<b>fileName</b>
+									<span class="light fixedFont">{String}</span> <b>fileName</b>
+									
+								</dt>
+								<dd>The path to the javascript file that will be loaded.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".route"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">rio.Application.</span><b>route</b>(path, target)
+					
+					</div>
+					<div class="description">
+						Specifies the lowest priority route for an application class.
+				
+				<b>You are better off specifying routes when creating an 
+				application with a 'routes' parameter.</b>
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>path</b>
+									
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<b>target</b>
 									
 								</dt>
 								<dd></dd>
@@ -688,11 +749,11 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name=".setToken"> </a>
-					<div class="fixedFont">&lt;static&gt; 
+					<a name="toString"> </a>
+					<div class="fixedFont">
 					
 					
-					<span class="light">rio.Application.</span><b>setToken</b>(token)
+					<b>toString</b>()
 					
 					</div>
 					<div class="description">
@@ -703,17 +764,6 @@ ul.inheritsList
 					
 					
 					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<b>token</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
 						
 						
 						
@@ -747,6 +797,34 @@ ul.inheritsList
 						
 						
 
+					<hr />
+				
+					<a name="unload"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>unload</b>()
+					
+					</div>
+					<div class="description">
+						This method is called just before the page is unloaded. This can be triggered by
+				following a link, closing the window, using the back button, etc.
+				
+				<i>This method is meant to be overriden</i>
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
 					
 				
 			
@@ -757,7 +835,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://www.jsdoctoolkit.org/" target="_blank">JsDoc Toolkit</a> 2.0.2 on Wed Jan 27 2010 00:54:51 GMT-0600 (CST)
+			Documentation generated by <a href="http://www.jsdoctoolkit.org/" target="_blank">JsDoc Toolkit</a> 2.0.2 on Thu Jan 28 2010 17:55:19 GMT-0600 (CST)
 		</div>
 	</body>
 </html>

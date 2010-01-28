@@ -4,19 +4,24 @@ def version
   File.read('VERSION').strip
 end
 
-desc "Build rio gem"
+desc "Build riojs gem"
 task :build do
-  system("gem build rio.gemspec && mv rio-#{version}.gem pkg/rio-#{version}.gem")
+  system("gem build riojs.gemspec && mv riojs-#{version}.gem pkg/riojs-#{version}.gem")
 end
 
-desc "Install rio gem"
+desc "Install riojs gem"
 task :install => [:build, :uninstall] do
-  system("gem install pkg/rio-#{version}.gem --no-ri --no-rdoc")
+  system("gem install pkg/riojs-#{version}.gem --no-ri --no-rdoc")
 end
 
-desc "Uninstall rio gem"
+desc "Uninstall riojs gem"
 task :uninstall do
-  system("gem uninstall -ax rio")
+  system("gem uninstall -ax riojs")
+end
+
+desc "Deploy the riojs gem to gemcutter"
+task :deploy => [:jsdoc, :build] do
+  system("gem push pkg/riojs-#{version}.gem")
 end
 
 desc "Update the rio docs"

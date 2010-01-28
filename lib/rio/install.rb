@@ -47,7 +47,7 @@ module Rio
     def self.add_gem_require_to_environment!
       sentinel = 'Rails::Initializer.run do |config|'
       gsub_file 'config/environment.rb', /(#{Regexp.escape(sentinel)})/mi do |match|
-        "#{match}\n  config.gem \"rio\"\n"
+        "#{match}\n  config.gem \"riojs\"\n"
       end
     end
     
