@@ -1,9 +1,0 @@
-.checkbox input {
-	vertical-align: middle;
-}
-
-.checkboxLabel {
-	font-size: 14px;
-	line-height: 14px;
-	vertical-align: middle;
-}
