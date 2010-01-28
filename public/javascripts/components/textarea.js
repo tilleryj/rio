@@ -67,7 +67,7 @@ rio.components.Textarea = rio.Component.create(rio.components.Base, "Textarea", 
 						textareaHtml.focus();
 					}
 				} else {
-					// if this is a native blur we shouldn't follow it up with another call to blur.  It will result in shitty behavior.
+					// if this is a native blur we shouldn't follow it up with another call to blur.  It will result in weird behavior.
 					if (!this._nativeBlur) {
 						textareaHtml.blur();
 					}

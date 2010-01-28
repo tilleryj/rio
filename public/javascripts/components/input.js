@@ -63,7 +63,7 @@ rio.components.Input = rio.Component.create(rio.components.Box, "Input", {
 						inputHtml.focus();
 					}
 				} else {
-					// if this is a native blur we shouldn't follow it up with another call to blur.  It will result in shitty behavior.
+					// if this is a native blur we shouldn't follow it up with another call to blur.  It will result in weird behavior.
 					if (!this._nativeBlur) {
 						inputHtml.blur();
 					}

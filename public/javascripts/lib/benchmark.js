@@ -1,3 +1,8 @@
+/**
+	@class
+
+	Benchmark provides some simple methods for benchmarking the performance of your application.
+*/
 rio.Benchmark = new (rio.Attr.create({ 
 	attrAccessors: [
 		["installations", []],

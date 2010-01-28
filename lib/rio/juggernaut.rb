@@ -88,12 +88,7 @@ module Juggernaut
     end
 
     def show_connected_clients
-      fc = {
-        :command  => :query,
-        :client_id => 0,
-        :type     => :show_connected_clients
-      }
-      send_data(fc, true).flatten
+      show_clients
     end
     
     def show_client(client_id)
