@@ -16,13 +16,13 @@ scripts:
   - lib/console/components/docs
   - lib/console/components/playground
   - components/tooltip
+  - components/image
   - components/button
   - components/grid_view
   - components/input
   - components/label
   - components/checkbox
   - lib/console/components/benchmark
-  - components/image
   - lib/console/pages/console_page
   - lib/console/apps/console
 templates:
