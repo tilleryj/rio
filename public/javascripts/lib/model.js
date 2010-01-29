@@ -856,6 +856,7 @@ rio.Model = {
 	},
 	
 	filterJson: function(json) {
+		if (json.attributes) { return json.attributes; }
 		return (rio.environment.includeRootInJson) ? Object.values(json)[0] : json;
 	},
 	

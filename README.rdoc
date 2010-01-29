@@ -4,6 +4,9 @@ Rio - real-time collaborative RIA's for Rails
 Rio is a javascript RIA framework for building real-time collaborative web applications on top of Rails.
 
 
+NOTE: Rio currently requires rails > 2.3. This is because of some bugs with the way the gem is setup. Shortly it will work with rails > 2.0
+
+
 Example
 =======
 

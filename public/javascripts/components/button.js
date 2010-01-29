@@ -1,5 +1,5 @@
 rio.components.Button = rio.Component.create(rio.components.Base, "Button", {
-	require: ["components/tooltip"],
+	require: ["components/tooltip", "components/image"],
 	requireCss: "button",
 	attrAccessors: [
 		"text",
