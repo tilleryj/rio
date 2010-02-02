@@ -1,4 +1,5 @@
 require 'rake'
+require 'fileutils'
 
 def version
   File.read('VERSION').strip
@@ -6,6 +7,7 @@ end
 
 desc "Build riojs gem"
 task :build do
+  mkdir_p "pkg"
   system("gem build riojs.gemspec && mv riojs-#{version}.gem pkg/riojs-#{version}.gem")
 end
 
@@ -35,4 +37,12 @@ task :jsdoc do
     File.join(rio_js_root, f.strip + ".js")
   end
   `java -jar jsdoc/jsrun.jar jsdoc/app/run.js -d=#{ js_doc_output } -a -t=jsdoc/templates/jsdoc #{ files.join(" ") }`
+end
+
+desc "Creates a rails specification file"
+task :rails_spec => :build do
+  spec = Gem::Specification.load("riojs.gemspec")
+  File.open(".specification", 'w') do |file|
+    file.puts spec.to_yaml
+  end
 end

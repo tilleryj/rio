@@ -1,4 +1,4 @@
-class RioPushController < ApplicationController
+class RioPushController < ActionController::Base
   session :cookie_only => false, :only => :subscribe
 
   def subscribe
@@ -27,7 +27,7 @@ class RioPushController < ApplicationController
     model_name = channel.split(".")[0]
     model = model_name.constantize
     id = channel.split(".")[1].to_i
-    user_id = current_user.id
+    user_id = session[:user_id]
 
     if (model.authorize_broadcast(id, user_id))
 

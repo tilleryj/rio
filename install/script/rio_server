@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-
 require 'rubygems'
 require "rio/path"
 require "rio/autospec"
@@ -12,9 +11,14 @@ def kill_juggernaut
   system("rm #{JUGGERNAUT_PID_FILE}")
 end
 
+def juggernaut_config_file
+  return "config/juggernaut.yml" if File.exist?("config/juggernaut.yml")
+  "config/juggernaut/#{ENV['RAILS_ENV'] || "development"}.yml"
+end
+
 def start_juggernaut
   kill_juggernaut
-  system("juggernaut -d -P #{JUGGERNAUT_PID_FILE} -c config/juggernaut.yml -l log/juggernaut.log")
+  system("juggernaut -d -P #{JUGGERNAUT_PID_FILE} -c #{juggernaut_config_file} -l log/juggernaut.log")
 end
 
 def start_autospec

@@ -1,4 +1,4 @@
-class RioProxyController < ApplicationController
+class RioProxyController < ActionController::Base
   ssl_allowed :javascripts, :sounds, :stylesheets, :stylesheet_concat if defined? SslRequirement
   
   def javascripts

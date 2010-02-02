@@ -1,4 +1,4 @@
-class RioSpecController < ApplicationController
+class RioSpecController < ActionController::Base
   def initialize
     @file_utils = FileDependencies.new(File.join(RAILS_ROOT, 'public', 'javascripts', 'specs'))
     @rio_file_utils = FileDependencies.new(File.join(Rio::ROOT, "public", "javascripts", "specs"))

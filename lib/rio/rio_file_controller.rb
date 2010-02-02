@@ -1,4 +1,4 @@
-class RioFileController < ApplicationController
+class RioFileController < ActionController::Base
   ssl_allowed :write if defined? SslRequirement
   protect_from_forgery :except => :write
   
