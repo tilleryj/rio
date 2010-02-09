@@ -1615,6 +1615,16 @@ describe(rio.Model, {
 					}.shouldBeCalled()
 				});
 			},
+
+			"by calling the onFailure function if the entity is not found": function() {
+				stub(Ajax, "Request").andDo(function(url, options) {
+					options.onFailure();
+				}.shouldBeCalled());
+				
+				this.model.find(28, {
+					onFailure: function() {}.shouldBeCalled()
+				});
+			},
 			
 			"by getting the entity synchronously and returning it if no onSuccess method is provided": function() {
 				var buildResponse = function(json) {

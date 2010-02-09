@@ -14,6 +14,7 @@ class AutoSpec
 
   def initialize
     rio_root = Rio::ROOT
+    
     js_root = File.join("public", "javascripts")
     rio_js_root = File.join(rio_root, "public", "javascripts")
     css_root = File.join("public", "stylesheets")

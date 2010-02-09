@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
-require 'rubygems'
-require "rio/path"
-require "rio/autospec"
+
+require File.dirname(__FILE__) + '/../config/boot'
 
 JUGGERNAUT_PID_FILE = "tmp/pids/juggernaut.pid"
 
@@ -23,7 +22,9 @@ end
 
 def start_autospec
   fork do
-    require "rio/autospec"
+    require File.dirname(__FILE__) + '/../config/boot'
+    require File.dirname(__FILE__) + '/../config/environment'
+    require File.join(Rio::LIB_ROOT, "autospec")
 
     AutoSpec.run
   end

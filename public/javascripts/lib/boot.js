@@ -153,6 +153,10 @@ var w = window;
 				});
 
 				$$("body")[0].insert("<div style='padding: 20px'>" + msg + "</div>");
+			},
+			
+			abort: function() {
+				rio.boot.abortBoot = true;
 			}
 		}
 	});
@@ -291,6 +295,7 @@ var w = window;
 		try {
 			window.initialOptions = window.initialOptions || {};
 			rio.app = new rio.apps[rio.boot.appName.camelize()](initialOptions);
+			if (rio.boot.abortBoot) { return; }
 			rio.app.launch();
 		} catch(e) {
 			rio.boot.errors.push({ e: e, msg: "Failed inititializing or launching application" });

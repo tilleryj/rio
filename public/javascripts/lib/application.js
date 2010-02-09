@@ -268,7 +268,14 @@ rio.Application = {
 				this.navigateTo(this.getCurrentLocation());
 			},
 			
-			/** @private */
+			/** 
+				Get the full path of your rio application after the hash.
+				
+				e.g. http://thinklinkr.com/outliner#584/revisions => "584/revisions"
+				
+				@returns the path of your rio application after the hash
+				@type String
+			*/
 			getCurrentLocation: function() {
 				return dhtmlHistory.getCurrentLocation();
 			},

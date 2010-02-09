@@ -461,7 +461,8 @@ rio.Model = {
 							onSuccess: function(response) {
 								entity = new model(model._filterAndProcessJson(response.responseJSON));
 								options.onSuccess(entity);
-							}
+							},
+							onFailure: options.onFailure || Prototype.emptyFunction
 						});
 						if (!asynchronous) {
 							return entity;

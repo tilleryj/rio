@@ -1,4 +1,5 @@
 rio.components.ToggleButton = rio.Component.create(rio.components.Base, {
+	require: ["components/image"],
 	attrReaders: ["offImage", "onImage"],
 	attrAccessors: ["state"],
 	attrEvents: ["click"],
