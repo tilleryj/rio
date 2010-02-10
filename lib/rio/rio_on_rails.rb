@@ -196,7 +196,7 @@ module Rio
       end
       
       def reset_rio_cache
-        Thread.current[:current_user_id] = current_user_id
+        $rio_cache[:current_user_id] = current_user_id
       end
     end
   end
