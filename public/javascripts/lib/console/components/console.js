@@ -233,7 +233,7 @@ rio.components.Console = rio.Component.create(rio.components.Box, "Console", {
 				}.bind(this);
 				
 				var summarizer = function() {
-					Sound.play("/sounds/" + (context.failures > 0 ? "basso" : "purr") + ".wav");
+					Sound.play(rio.url("/sounds/" + (context.failures > 0 ? "basso" : "purr") + ".wav"));
 					var msg = context.examples + " " + rio.Utils.pluralize(context.examples, "example", "examples") + ", " + 
 							  context.failures + " " + rio.Utils.pluralize(context.failures, "failure", "failures");
 					if (context.pendings > 0) {
