@@ -13,7 +13,8 @@ rio.components.ListView = rio.Component.create(rio.components.Box, "ListView", {
 		['className', 'listView'],
 		["itemRenderer", function(val) { return rio.Tag.div(val); }],
 		["listItemBuilder", function(item, renderer){ return new rio.components.ListItem({item: item, renderer: renderer}); }],
-		["autoSelectFirstItem", false]
+		["autoSelectFirstItem", false],
+		["handleClickSelection", true]
 	],
 	attrEvents: ["selectNext", "selectPrevious", "itemClick"],
 	methods: {
@@ -77,7 +78,9 @@ rio.components.ListView = rio.Component.create(rio.components.Box, "ListView", {
 			}.bind(this));
 			
 			listItem.observe("click", function() {
-				this.setSelectedItem(listItem.getItem());
+				if (this.getHandleClickSelection()) {
+					this.setSelectedItem(listItem.getItem());
+				}
 				this.fire("itemClick", listItem.getItem());
 			}.bind(this));
 			listItem.observe("scrollTo", function() {
