@@ -14,7 +14,3 @@ ActionController::Base.send(:include, Rio::ApplicationControllerExtensions)
 ActiveRecord::Base.send(:include, Rio::ActiveRecordExtensions)
 
 $rio_cache = {}
-Rails.configuration.to_prepare do
-  $rio_cache = {}
-end
-
