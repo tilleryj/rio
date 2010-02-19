@@ -10,6 +10,8 @@ Object.extend(rio.environment, {
 	failOnBootError: false,
 	autoConcatCss: false,
 	giveWarnings: true,
+	developmentTools: false,
+
 	boot: {
 		// bootCompressed: true
 	}
@@ -17,6 +19,8 @@ Object.extend(rio.environment, {
 
 rio.environments = {
 	development: {
+		developmentTools: true,
+
 		console: true,
 		autospec: true,
 		autocss: true,

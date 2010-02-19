@@ -39,9 +39,12 @@ rio.components.Notification = rio.Component.create(rio.components.Base, "Notific
 	},
 	
 	classMethods: {
-		notifications: [],
+		notifications: function() {
+			if (!this._notifications) { this._notifications = []; }
+			return this._notifications;
+		},
 		show: function(notification) {
-			this.notifications.push(notification);
+			this.notifications().push(notification);
 
 			var html = notification.html();
 
@@ -61,15 +64,15 @@ rio.components.Notification = rio.Component.create(rio.components.Base, "Notific
 		},
 		
 		slideDownBy: function(pixels) {
-			this.notifications.each(function(notification) {
+			this.notifications().each(function(notification) {
 				var html = notification.html();
 				new Effect.Move(html, {
 					y: pixels,
 					afterFinish: function() {
-						this.notifications.splice(this.notifications.indexOf(notification));
-					}
+						this.notifications().splice(this.notifications().indexOf(notification));
+					}.bind(this)
 				});
-			});
+			}.bind(this));
 		}
 	}
 });

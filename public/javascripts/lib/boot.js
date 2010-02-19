@@ -253,7 +253,7 @@ var w = window;
 		// rio.require(rio.boot.appRoot + "prototype/compressed/prototype", { force: true });
 		rio.require(rio.boot.rioPath + "compressed/rio", { force: true });
 		rio.require(rio.boot.appRoot + "apps/compressed/" + rio.boot.appName, { force: true });
-		if (rio.boot.environment == "development") {
+		if (rio.environment.developmentTools) {
 			rio.require(rio.boot.rioPath + "rio_development_concat", { force: true });
 		}
 	} else {
@@ -281,7 +281,11 @@ var w = window;
 
 	document.observe('dom:loaded', function() {
 		if (rio.environment.push && !rio.push) {
-			rio.Push.boot();
+			try {
+				rio.Push.boot();
+			} catch(e) {
+				rio.boot.errors.push({ e: e, msg: "Failed booting push client" });
+			}
 		}
 
 		if (rio.preloadTemplates) {

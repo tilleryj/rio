@@ -9,7 +9,7 @@ module ActionController
           map.connect 'rio/file', :controller => 'rio_file', :action => 'write' if RAILS_ENV == "development"
           map.connect 'rio/stylesheets', :controller => 'rio_proxy', :action => 'stylesheet_concat'
           yield map
-          map.connect 'javascripts/*path', :controller => 'rio_proxy', :action => 'javascripts' if RAILS_ENV == "development" or RAILS_ENV == "test"
+          map.connect 'javascripts/*path', :controller => 'rio_proxy', :action => 'javascripts' if RAILS_ENV == "development" or RAILS_ENV == "test" or ENV["rio_proxy"] == "true"
           map.connect 'sounds/*path', :controller => 'rio_proxy', :action => 'sounds' if RAILS_ENV == "development"
           map.connect 'images/*path', :controller => 'rio_proxy', :action => 'images'
           map.connect 'stylesheets/*path', :controller => 'rio_proxy', :action => 'stylesheets'
