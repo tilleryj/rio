@@ -192,61 +192,65 @@ var w = window;
 				if (rio.boot.loadFunctions[fileName]) {
 					rio.boot.loadFunctions[fileName]();
 				} else {
-					var path = rio.boot.root + fileName + ".js";
-					new Ajax.Request(rio.url(path), {
-						asynchronous: false,
-						method: "get",
-						evalJSON: false,
-						evalJS: false,
-						onSuccess: function(response) {
-							try {
-								w.eval(response.responseText);
-							} catch(e) {
-								rio.error(e, "Failed parsing file: " + path);
-
-								if (!rio.app) {
-									if (fileName != "lib/rio_lint") {
-										rio.require("lib/rio_lint", { track: false });
-									}
-									
-									var lintIt = function(fileName) {
-										rio.RioLint.checkFileSyntax(fileName, {
-											onComplete: function(errors) {
-												rio.boot.errors.push({ lint: errors });
-											}
-										});
-									};
-									if (fileName == "lib/rio_concat") {
-										new Ajax.Request(rio.url("/javascripts/lib/rio.build"), {
-											asynchronous: false,
-											method: "get",
-											evalJSON: false,
-											evalJS: false,
-											onSuccess: function(response) {
-												var files = response.responseText.split("\n");
-												files.without("lib/swfobject").each(function(f) {
-													lintIt(f);
-												});
-											}
-										});
-									} else if (fileName == "apps/" + rio.boot.appName + "_concat") {
-									} else {
-										rio.boot.errors.push({ e: e, msg: "Failed parsing file: " + path });
-										lintIt(fileName);
-									}
-									
-								}
-								throw(e);
-							}
-						},
-						onFailure: function() {
-							rio.log("Failed loading file: " + path);
-						}
-					});					
+					rio.require.ajax(fileName);
 				}
 				if (options.track) { rio.boot.loadedFiles.push(fileName); }
 			}
 		}
+	};
+	
+	rio.require.ajax = function(fileName) {
+		var path = rio.boot.root + fileName + ".js";
+		new Ajax.Request(rio.url(path), {
+			asynchronous: false,
+			method: "get",
+			evalJSON: false,
+			evalJS: false,
+			onSuccess: function(response) {
+				try {
+					w.eval(response.responseText);
+				} catch(e) {
+					rio.error(e, "Failed parsing file: " + path);
+
+					if (!rio.app) {
+						if (fileName != "lib/rio_lint") {
+							rio.require("lib/rio_lint", { track: false });
+						}
+						
+						var lintIt = function(fileName) {
+							rio.RioLint.checkFileSyntax(fileName, {
+								onComplete: function(errors) {
+									rio.boot.errors.push({ lint: errors });
+								}
+							});
+						};
+						if (fileName == "lib/rio_concat") {
+							new Ajax.Request(rio.url("/javascripts/lib/rio.build"), {
+								asynchronous: false,
+								method: "get",
+								evalJSON: false,
+								evalJS: false,
+								onSuccess: function(response) {
+									var files = response.responseText.split("\n");
+									files.without("lib/swfobject").each(function(f) {
+										lintIt(f);
+									});
+								}
+							});
+						} else if (fileName == "apps/" + rio.boot.appName + "_concat") {
+						} else {
+							rio.boot.errors.push({ e: e, msg: "Failed parsing file: " + path });
+							lintIt(fileName);
+						}
+						
+					}
+					throw(e);
+				}
+			},
+			onFailure: function() {
+				rio.log("Failed loading file: " + path);
+			}
+		});
 	};
 
 	if (rio.boot.bootCompressed) {
