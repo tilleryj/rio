@@ -12,7 +12,6 @@ rio.components.GridView = rio.Component.create(rio.components.ListView, "GridVie
 		["rowSelectedClassName", "gridItemSelected"]
 	],
 	attrHtmls: ["header"],
-	styles: ["headerColor", "headerBackgroundColor", "headerPadding", "headerFontWeight"],
 	methods: {
 		initialize: function($super, options) {
 			$super(options);
@@ -50,16 +49,7 @@ rio.components.GridView = rio.Component.create(rio.components.ListView, "GridVie
 		buildHeaderHtml: function() {
 			return rio.Tag.tr(
 				this.getColumns().map(function(column) {
-					var header = rio.Tag.td(column.header);
-					// header.applyStyle({
-						// color: this.headerColor,
-						// width: column.width,
-						// backgroundColor: this.headerBackgroundColor,
-						// padding: this.headerPadding,
-						// fontWeight: this.headerFontWeight,
-						// border: "1px solid #888"
-					// });
-					return header;
+					return rio.Tag.td(column.header);
 				}.bind(this)),
 				{ className: "gridViewHeaderRow" }
 			);

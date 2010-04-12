@@ -401,10 +401,10 @@ rio.Model = {
 									onSuccess(response);
 								}
 							},
-							onFailure: function() { 
+							onFailure: function(response) { 
 								// if (!entity.__destroying) {
 									if (onFailure) {
-										onFailure();
+										onFailure(response);
 									} else {
 										rio.Application.fail("Failed creating, updating, or destroying.", model + ":\n" + Object.toJSON(parameters));
 									}

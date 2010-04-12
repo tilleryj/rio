@@ -1,5 +1,5 @@
 rio.components.Image = new rio.Component.create(rio.components.Base, "Image", {
-	attrAccessors: ["src", "title"],
+	attrAccessors: ["src", ["title", ""]],
 	attrEvents: ["click"],
 	methods: {
 		buildHtml: function() {

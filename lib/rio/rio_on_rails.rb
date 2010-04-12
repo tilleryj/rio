@@ -233,7 +233,7 @@ module Rio
       
       raise "Index operation not authorized" unless self.index_authorized?(parsed_index_conditions)
       
-      render :json => scope.find(:all, :conditions => parsed_index_conditions)
+      render :json => index_scope.find(:all, :conditions => parsed_index_conditions)
     end
     
     def index_conditions
@@ -360,6 +360,10 @@ module Rio
     
     def scope
       model
+    end
+    
+    def index_scope
+      scope
     end
     
     def create_scope

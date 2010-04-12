@@ -236,7 +236,7 @@ rio.Application = {
 					this.setCurrentPage(page);
 				}
 
-				page.applyHistoryEntry(remainingPath, pathParts);
+				page.applyHistoryEntry(remainingPath, pathParts, path);
 			},
 			
 			/** @private */

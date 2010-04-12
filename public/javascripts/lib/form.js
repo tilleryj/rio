@@ -39,16 +39,24 @@ rio.Form = {
 				validate: function() {
 					var valid = true;
 					Object.keys(attributes).each(function(attribute) {
+						var errorMessage = "";
 						(attributes[attribute].validates || []).uniq().each(function(validate) {
-							var errorMessage = Object.isString(validate) ? 
-								rio.Validators[validate](this[attribute].value()) :
-								validate(this.values());
-							errorMessage = errorMessage || "";
-							if (!errorMessage.blank()) {
-								valid = false;
+							var newErrorMessage = "";
+							if (Object.isString(validate)) {
+								newErrorMessage = rio.Validators[validate](this[attribute].value());
+							} else if (Object.isArray(validate)) {
+								newErrorMessage = rio.Validators[validate[0]](this[attribute].value(), validate[1]);
+							} else {
+								newErrorMessage = validate(this.values());
 							}
-							this.errors[attribute].update(errorMessage);
+
+							if (!(newErrorMessage || "").blank()) {
+								valid = false;
+								errorMessage = newErrorMessage;
+							}
 						}.bind(this));
+
+						this.errors[attribute].update(errorMessage);
 					}.bind(this));
 					return valid;
 				}
@@ -82,6 +90,23 @@ rio.Validators = {
 	
 	presence: function(value) {
 		return value && !value.blank() ? "" : "cannot be blank";
+	},
+	
+	length: function(value, options) {
+		var blank = value == undefined || value.blank();
+
+		if (options.allowBlank && blank) { return ""; }
+
+		if (blank) { return this.presence(value); }
+
+		if (options.minimum && value.length < options.minimum) {
+			return "must be at least " + options.minimum + " characters long";
+		}
+		if (options.maximum && value.length > options.maximum) {
+			return "can't be more than " + options.maximum + " characters long";
+		}
+		
+		return "";
 	},
 	
 	toString: function() { return "Validators"; }

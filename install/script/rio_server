@@ -36,7 +36,17 @@ end
 
 start_juggernaut
 start_autospec
-start_server
+
+if (ARGV.to_s.match(/--no-mongrel/))
+  begin
+    loop do
+    end
+  rescue Interrupt
+    puts
+  end  
+else
+  start_server
+end
 
 kill_juggernaut
 

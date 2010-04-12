@@ -52,6 +52,7 @@ rio.components.Input = rio.Component.create(rio.components.Box, "Input", {
 			
 			
 			this.bind("value", function(value) {
+				if (inputHtml.value == value) { return; }
 				inputHtml.value = value;
 			});
 
@@ -102,6 +103,7 @@ rio.components.Input = rio.Component.create(rio.components.Box, "Input", {
 					if(this.getBlurOnEnter()) {
 						inputHtml.blur();
 					}
+					this.setValue(inputHtml.value);
 					this.fire('enter');
 				}
 				if (e.keyCode == Event.KEY_ESC && this.getRevertOnEscape()) {

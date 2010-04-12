@@ -58,8 +58,8 @@ describe(rio.Application, {
 		},
 		
 		"should reload the page on refresh": function() {
-			/* You can't stub document.location.reload in firefox, so just skip the test */
-			if (Prototype.Browser.Gecko) { return; }
+			/* You can't stub document.location.reload in firefox or chrome, so just skip the test */
+			if (Prototype.Browser.Gecko || navigator.userAgent.indexOf("Chrome") > 0) { return; }
 
 			stub(document.location, "reload").shouldBeCalled();
 			this.applicationInstance.refresh();
@@ -96,6 +96,7 @@ describe(rio.Application, {
 				routes: {
 					"other": "otherPage",
 					":something/hello": "helloPage",
+					"business/:businessId": "helloPage",
 					"hello/*world": "worldPage",
 					"": "myPage"
 				},
@@ -215,6 +216,10 @@ describe(rio.Application, {
 			this.applicationInstance.matchRoutePath("123/hello").shouldEqual(":something/hello");
 		},
 
+		"should treat :part as wild cards separated by slashes at end of url": function() {
+			this.applicationInstance.matchRoutePath("business/123").shouldEqual("business/:businessId");
+		},
+
 		"should treat *part as optional": function() {
 			this.applicationInstance.matchRoutePath("hello/123").shouldEqual("hello/*world");
 			this.applicationInstance.matchRoutePath("hello").shouldEqual("hello/*world");
@@ -257,6 +262,10 @@ describe(rio.Application, {
 		
 		"should return a hash from the wildcard name to its value in the path for path parts": function() {
 			this.applicationInstance.pathParts("123/hello").something.shouldEqual("123");
+		},
+
+		"should return a hash from the wildcard name to its value in the path for path parts when wild card is at the end": function() {
+			this.applicationInstance.pathParts("business/123").businessId.shouldEqual("123");
 		},
 
 		"should return a hash from the optional name to its value in the path for path parts": function() {
