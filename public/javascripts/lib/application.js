@@ -328,6 +328,23 @@ rio.Application = {
 						}
 					}
 				}
+			},
+			
+			/**
+				Specifies the application level environment variables.
+				
+				<b>You are better off specifying environment when creating an 
+				application with a 'environment' parameter.</b>
+			*/
+			setEnvironment: function(env) {
+				this.__env = env;
+			},
+			
+			/**
+				Returns the application level environment variables
+			*/
+			environment: function() {
+				return this.__env || {};
 			}
 		});
 		
@@ -339,6 +356,10 @@ rio.Application = {
 			Object.keys(initializers.routes || {}).each(function(name) {
 				app.route(name, initializers.routes[name]);
 			});
+
+			if (initializers.environment) {
+				app.setEnvironment(initializers.environment);
+			}
 			
 			rio.Application.extend(app, initializers.methods || {});
 		}

@@ -285,6 +285,25 @@ describe(rio.Application, {
 				/* It's going to error here */
 			}
 		}
+	},
+
+	"#environment should return the passed in environment hash": function() {
+		var application = rio.Application.create({
+			environment: {
+				push: false,
+				url: "http://thinklinkr.com"
+			}
+		});
+		
+		application.environment().push.shouldBeFalse();
+		application.environment().url.shouldEqual("http://thinklinkr.com");
+	},
+
+	"#environment should default to an empty hash": function() {
+		var application = rio.Application.create();
+		
+		shouldBeDefined(application.environment());
+		Object.keys(application.environment()).shouldBeEmpty();
 	}
 
 });

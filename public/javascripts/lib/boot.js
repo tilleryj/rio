@@ -284,7 +284,9 @@ var w = window;
 	}
 
 	document.observe('dom:loaded', function() {
-		if (rio.environment.push && !rio.push) {
+		var app = rio.apps[rio.boot.appName.camelize()];
+		var pushOverride = app.environment().push == undefined ? true : app.environment().push;
+		if ((rio.environment.push && pushOverride) && !rio.push) {
 			try {
 				rio.Push.boot();
 			} catch(e) {
@@ -302,7 +304,7 @@ var w = window;
 		}
 		try {
 			window.initialOptions = window.initialOptions || {};
-			rio.app = new rio.apps[rio.boot.appName.camelize()](initialOptions);
+			rio.app = new app(initialOptions);
 			if (rio.boot.abortBoot) { return; }
 			rio.app.launch();
 		} catch(e) {
