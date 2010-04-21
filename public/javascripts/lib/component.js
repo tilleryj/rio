@@ -79,6 +79,11 @@ rio.Component = {
 			if (Object.isString(initializers.requireCss)) {
 				component.requireCss(initializers.requireCss);
 			}
+			if (Object.isArray(initializers.requireCss)) {
+				initializers.requireCss.each(function(css) {
+					component.requireCss(css);
+				});
+			}
 			
 			if (Object.isString(initializers.template)) {
 				component.template(initializers.template);
