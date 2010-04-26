@@ -130,6 +130,12 @@ rio.components.Input = rio.Component.create(rio.components.Box, "Input", {
 						this.setValue(inputHtml.value);
 					}, this);
 				}
+				
+				if (e.keyCode == Event.KEY_ESC && this.getRevertOnEscape()) {
+					inputHtml.value = this.getValue();
+					inputHtml.blur();
+				}
+				
 				this.fire("keyDown", e);
 			}.bindAsEventListener(this));
 			inputHtml.observe('keyup', function(e) {

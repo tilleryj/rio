@@ -14,10 +14,10 @@
 	position: relative;
 	cursor: pointer;
 	padding: 5px 20px 5px 30px;
-	
+	white-space: nowrap;
 }
 
-.menuItem img {
+.menuItem img.menuIcon {
 	position: absolute;
 	left: 5px;
 	top: 4px;
@@ -25,4 +25,10 @@
 
 .menuItem:hover {
 	background: #ddd url('/images/button-gradient-overlay.png');
+}
+
+img.subMenuIndicator {
+	position: absolute;
+	right: 3px;
+	top: 9px;
 }

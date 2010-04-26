@@ -3,6 +3,7 @@ rio.components.Menu = rio.Component.create("Menu", {
 	
 	attrAccessors: [
 		["items", []],
+		"menuItems",
 		"left",
 		"right",
 		["top", 0]
@@ -11,6 +12,20 @@ rio.components.Menu = rio.Component.create("Menu", {
 		"className"
 	],
 	methods: {
+		initialize: function() {
+			this.setMenuItems(this.getItems().map(function(item) {
+				var menuItem = new rio.components.MenuItem(Object.extend(item, { menuClassName: this.getClassName() }));
+				
+				menuItem.observe("privateClick", function() {
+					this.fire("privateClick");
+					this.close();
+				}.bind(this));
+				menuItem.observe("hideDescendantSubMenus", this.hideDescendantSubMenus.bind(this));
+				
+				return menuItem;
+			}.bind(this)));
+		},
+
 		buildHtml: function() {
 			var menuHtml = rio.Tag.div("", { className: "menu" });
 			menuHtml.addClassName(this.getClassName());
@@ -24,13 +39,17 @@ rio.components.Menu = rio.Component.create("Menu", {
 			}
 			menuHtml.setStyle(position);
 			
-			this.getItems().each(function(item) {
-				var menuItem = new rio.components.MenuItem(item);
+			this.getMenuItems().each(function(menuItem) {
 				menuHtml.insert(menuItem);
-				menuItem.observe("privateClick", this.close.bind(this));
 			}.bind(this));
 			
 			return menuHtml;
+		},
+		
+		hideDescendantSubMenus: function(noDelay) {
+			this.getMenuItems().each(function(menuItem) {
+				menuItem.hideDescendantSubMenus(noDelay);
+			});
 		},
 		
 		render: function() {
@@ -57,22 +76,57 @@ rio.components.Menu = rio.Component.create("Menu", {
 });
 
 rio.components.MenuItem = rio.Component.create("MenuItem", {
-	attrAccessors: ["label", "iconSrc"],
+	attrAccessors: ["label", "iconSrc", ["items", []]],
+	attrReaders: ["menuClassName"],
 	attrEvents: ["click"],
 	methods: {
 		buildHtml: function() {
 			var content = [this.getLabel()];
 			if (this.getIconSrc()) {
-				content.unshift(new rio.components.Image({ src: this.getIconSrc() }));
+				content.unshift(new rio.components.Image({ src: this.getIconSrc(), className: "menuIcon" }));
 			}
 			var itemHtml = rio.Tag.div(content, { className: "menuItem" });
 
+			var hasSubMenu = !this.getItems().empty();
+			if (hasSubMenu) {
+				this._subMenu = new rio.components.Menu({
+					className: this.getMenuClassName(),
+					items: this.getItems(),
+					top: -2
+				});
+				this._subMenu.observe("privateClick", this.fire.bind(this, "privateClick"));
+
+				var subMenuHtml = this._subMenu.html();
+				subMenuHtml.hide();
+				itemHtml.insert(subMenuHtml);
+				itemHtml.insert(new rio.components.Image({ src: "/images/sub-menu-indicator.png", className: "subMenuIndicator" }));
+			}
+			itemHtml.observe("mouseover", function() {
+				if (this._subMenu) {
+					this.fire("hideDescendantSubMenus");
+					var subMenuHtml = this._subMenu.html();
+					subMenuHtml.setStyle({ left: itemHtml.getWidth() + "px" });
+					subMenuHtml.show();
+				} else {
+					this.fire("hideDescendantSubMenus");
+				}
+			}.bind(this));
+
 			itemHtml.observe("click", function() {
-				this.fire("privateClick");
+				if (!hasSubMenu) {
+					this.fire("privateClick");
+				}
 				this.fire("click");
 			}.bind(this));
 
 			return itemHtml;
+		},
+		
+		hideDescendantSubMenus: function() {
+			if (this._subMenu) {
+				this._subMenu.hideDescendantSubMenus();
+				this._subMenu.html().hide();
+			}
 		}
 	}
 });

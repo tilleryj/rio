@@ -198,7 +198,7 @@ rio.components.Popup = rio.Component.create("Popup", {
 			
 			if (this._hasObservers) { return; }
 			document.observe("keydown", function(e) {
-				if (e.keyCode == Event.KEY_ESC && this.activePopup() && this.activePopup().getDeactivateOnEscape()) {
+				if (e.keyCode == Event.KEY_ESC && this.activePopup() && this.activePopup().getDeactivateOnEscape() && e.target.tagName.toLowerCase() != "input") {
 					this.activePopup().deactivate();
 				}
 			}.bindAsEventListener(this));
