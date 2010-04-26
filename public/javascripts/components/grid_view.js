@@ -58,7 +58,13 @@ rio.components.GridView = rio.Component.create(rio.components.ListView, "GridVie
 		buildHeaderHtml: function() {
 			return rio.Tag.tr(
 				this.getColumns().map(function(column) {
-					return rio.Tag.td(column.header);
+					var td = rio.Tag.td(column.header);
+					if (column.width) {
+						td.setStyle({
+							width: column.width
+						});
+					}
+					return td;
 				}.bind(this)),
 				{ className: "gridViewHeaderRow" }
 			);
