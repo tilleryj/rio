@@ -163,29 +163,32 @@ if (rio.environment.logEventErrors) {
 
 Object.extend(Date.prototype, {
 	strftime: function(format) {
-		var day = this.getUTCDay(), month = this.getUTCMonth();
-		var hours = this.getUTCHours(), minutes = this.getUTCMinutes();
+		var day = this.getDay(), month = this.getMonth();
+		var hours = this.getHours(), minutes = this.getMinutes();
 		function pad(num) { return num.toPaddedString(2); }
 
-		return format.gsub(/\%([aAbBcdDHiImMpSwyY])/, function(part) {
+		return format.gsub(/\%([aAbBcdDeHiImMnpPSwyY])/, function(part) {
 			switch(part[1]) {
 				case 'a': return $w("Sun Mon Tue Wed Thu Fri Sat")[day];
 				case 'A': return $w("Sunday Monday Tuesday Wednesday Thursday Friday Saturday")[day];
 				case 'b': return $w("Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec")[month];
 				case 'B': return $w("January February March April May June July August September October November December")[month];
 				case 'c': return this.toString();
-				case 'd': return pad(this.getUTCDate());
-				case 'D': return pad(this.getUTCDate());
+				case 'd': return pad(this.getDate());
+				case 'D': return pad(this.getDate());
+				case 'e': return this.getDate();
 				case 'H': return pad(hours);
 				case 'i': return (hours === 12 || hours === 0) ? 12 : (hours + 12) % 12;
 				case 'I': return pad((hours === 12 || hours === 0) ? 12 : (hours + 12) % 12);
 				case 'm': return pad(month + 1);
 				case 'M': return pad(minutes);
+				case 'n': return month + 1;
 				case 'p': return hours > 11 ? 'PM' : 'AM';
-				case 'S': return pad(this.getUTCSeconds());
+				case 'P': return hours > 11 ? 'pm' : 'am';
+				case 'S': return pad(this.getSeconds());
 				case 'w': return day;
-				case 'y': return pad(this.getUTCFullYear() % 100);
-				case 'Y': return this.getUTCFullYear().toString();
+				case 'y': return pad(this.getFullYear() % 100);
+				case 'Y': return this.getFullYear().toString();
 			}
 		}.bind(this));
 	},
@@ -220,7 +223,7 @@ Object.extend(Date, {
 	    }
 
 		// I had to add the * 2 to get it to work
-	    offset -= date.getTimezoneOffset() * 2;
+	    offset -= date.getTimezoneOffset();
 	    time = (Number(date) + (offset * 60 * 1000));
 		
 		return new Date(Number(time));

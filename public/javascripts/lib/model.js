@@ -569,6 +569,7 @@ rio.Model = {
 						});
 					},
 					
+					_belongsToAssociations: {},
 					belongsTo: function(args) {
 						var options = {};
 						var associationName;
@@ -578,24 +579,27 @@ rio.Model = {
 						} else {
 							associationName = args;
 						}
+						options.className = options.className || associationName.classize();
+						options.foreignKey = options.foreignKey || associationName + "Id";
+
+						this._belongsToAssociations[associationName] = options;
+						
 						this.attrAccessor(associationName);
 						this.clientOnlyAttr(associationName);
 						
-						var className = options.className || associationName.classize();
-						var foreignKey = options.foreignKey || associationName + "Id";
 						var getName = ("get-" + associationName).camelize();
 						
 						this.prototype[getName] = this.prototype[getName].wrap(function(proceed) {
 							if (this["_" + associationName] == undefined) {
 								var setAssociation = function() {
-									var associationId = this["_" + foreignKey];
-									var foundValue = rio.models[className].find(associationId, {
+									var associationId = this["_" + options.foreignKey];
+									var foundValue = rio.models[options.className].find(associationId, {
 										asynchronous: false
 									});
 									this[("set-" + associationName).camelize()](foundValue);
 								}.bind(this);
 								setAssociation();
-								this[foreignKey].bind(setAssociation, true);
+								this[options.foreignKey].bind(setAssociation, true);
 							}
 							return proceed.apply(this, $A(arguments).slice(1));
 						});
@@ -1016,6 +1020,15 @@ rio.Model = {
 				options.id = model.id(options.id, true);
 				this.setId(options.id);
 			}
+
+			// Set assiated id's from belongsTo associations
+			Object.keys(model._belongsToAssociations).each(function(belongsToName) {
+				var associationValue = options[belongsToName];
+				if (associationValue) {
+					var belongsToOptions = model._belongsToAssociations[belongsToName];
+					this["_" + belongsToOptions.foreignKey] = associationValue.getId();
+				}
+			}.bind(this));
 
 			(this.__initialize.bind(this))(options);
 			

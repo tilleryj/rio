@@ -13,10 +13,11 @@ rio.components.ToggleButton = rio.Component.create(rio.components.Base, {
 				href: "",
 				onclick: "return false;"
 			});
-			linkHtml.observe("click", function() {
+			linkHtml.observe("click", function(e) {
 				this.setState(!this.getState());
 				this.fire("toggle");
-			}.bind(this));
+				e.stop();
+			}.bindAsEventListener(this));
 			return linkHtml;
 		}
 	}

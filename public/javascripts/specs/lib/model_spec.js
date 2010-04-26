@@ -1883,6 +1883,19 @@ describe(rio.Model, {
 				
 				this.modelInstance.setUserId(22);
 			},
+
+			"by initializing it's foreign key with the assiation id": function() {
+				var user = new rio.models.User({ id: 14 });
+				
+				new this.model({ user: user }).getUserId().shouldEqual(14);
+			},
+			
+			"by initializing it's custom foreign key with the assiation id": function() {
+				var user = new rio.models.User({ id: 254 });
+				var company = new this.companyModel({ id: 254 });
+				
+				new this.model({ company: company }).getEmployerId().shouldEqual(254);
+			},
 			
 			"by allowing explicitly defined class names": function() {
 				var user91 = new rio.models.User({ id: 91 });

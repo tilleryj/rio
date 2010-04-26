@@ -48,21 +48,21 @@ rio.Page = {
 			},
 			
 			popup: function() {
-				if (!this.__popupLightbox) { 
-					this.__popupLightbox = new rio.components.Lightbox({
+				if (!this.__popup) { 
+					this.__popup = new rio.components.Popup({
 						content: this.html()
 					});
 				}
-				this.__popupLightbox.activate();
+				this.__popup.activate();
 				this.render();
 			},
 			
 			resizePopup: function() {
-				this.__popupLightbox.resize();
+				this.__popup.resize();
 			},
 			
 			closePopup: function(skipFade) {
-				this.__popupLightbox.deactivate(skipFade);
+				this.__popup.deactivate(skipFade);
 			},
 			
 			isManagingLayout: function() {

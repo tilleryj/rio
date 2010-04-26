@@ -3,87 +3,73 @@ rio.components.Menu = rio.Component.create("Menu", {
 	
 	attrAccessors: [
 		["items", []],
-		["left", 0],
+		"left",
+		"right",
 		["top", 0]
 	],
-	
-	attrHtmls: ["overlay"],
-	
+	attrReaders: [
+		"className"
+	],
 	methods: {
 		buildHtml: function() {
 			var menuHtml = rio.Tag.div("", { className: "menu" });
-			
-			menuHtml.setStyle({
-				left: this.getLeft() + "px",
-				top: this.getTop() + "px"
-			});
-			
-			var insertItem = function(item) {
-				menuHtml.insert(item.html());
-				item.observe("click", this.click.bind(this));
-			}.bind(this);
-			
-			var removeItem = function(item) {
-				item.html().remove();
-			}.bind(this);
-			
-			this.bind("items", {
-				set: function(items) {
-					if (items) {
-						items.each(function(item) {
-							insertItem(item);
-						}.bind(this));
-					}
-				}.bind(this),
+			menuHtml.addClassName(this.getClassName());
 
-				insert: insertItem,
-				remove: removeItem
-			});
+			var position = { top: parseInt(this.getTop(), 10) + "px" };
+
+			if (this.getRight()) {
+				position.right = parseInt(this.getRight(), 10) + "px";
+			} else {
+				position.left = (parseInt(this.getLeft(), 10) || 0) + "px";
+			}
+			menuHtml.setStyle(position);
+			
+			this.getItems().each(function(item) {
+				var menuItem = new rio.components.MenuItem(item);
+				menuHtml.insert(menuItem);
+				menuItem.observe("click", this.close.bind(this));
+			}.bind(this));
 			
 			return menuHtml;
 		},
 		
-		buildOverlayHtml: function() {
-			var overlayHtml = rio.Tag.div("", { className: "menuOverlay" });
-			Event.observe(overlayHtml, "mousedown", this.click.bind(this));
-			return overlayHtml;
-		},
-		
 		render: function() {
-			Element.body().insert(this.overlayHtml());
-			Element.body().insert(this.html());
+			this.popup().activate();
 		},
 		
-		click: function() {
-			this.close();
+		popup: function() {
+			if (!this._popup) {
+				this._popup = new rio.components.Popup({
+					content: this.html(),
+					autoCenter: false,
+					wrapContent: false,
+					opacity: 0.01,
+					animateOverlay: false
+				});
+			}
+			return this._popup;
 		},
 		
 		close: function() {
-			this.html().remove();
-			this.overlayHtml().remove();
+			this.popup().deactivate();
 		}
 	}
 });
 
 rio.components.MenuItem = rio.Component.create("MenuItem", {
-	attrAccessors: ["text"],
+	attrAccessors: ["label", "iconSrc"],
 	attrEvents: ["click"],
 	methods: {
 		buildHtml: function() {
-			var itemHtml = rio.Tag.div("", { className: "menuItem" });
-			itemHtml.addHoverClass("menuItemHover");
+			var content = [this.getLabel()];
+			if (this.getIconSrc()) {
+				content.unshift(new rio.components.Image({ src: this.getIconSrc() }));
+			}
+			var itemHtml = rio.Tag.div(content, { className: "menuItem" });
 
-			this.bind("text", function(text) {
-				itemHtml.update(text);
-			});
-
-			itemHtml.observe("click", this.click.bind(this));
+			itemHtml.observe("click", this.fire.bind(this, "click"));
 
 			return itemHtml;
-		},
-		
-		click: function() {
-			this.fire("click");
 		}
 	}
 });
