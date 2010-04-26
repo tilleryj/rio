@@ -27,7 +27,7 @@ rio.components.Menu = rio.Component.create("Menu", {
 			this.getItems().each(function(item) {
 				var menuItem = new rio.components.MenuItem(item);
 				menuHtml.insert(menuItem);
-				menuItem.observe("click", this.close.bind(this));
+				menuItem.observe("privateClick", this.close.bind(this));
 			}.bind(this));
 			
 			return menuHtml;
@@ -67,7 +67,10 @@ rio.components.MenuItem = rio.Component.create("MenuItem", {
 			}
 			var itemHtml = rio.Tag.div(content, { className: "menuItem" });
 
-			itemHtml.observe("click", this.fire.bind(this, "click"));
+			itemHtml.observe("click", function() {
+				this.fire("privateClick");
+				this.fire("click");
+			}.bind(this));
 
 			return itemHtml;
 		}

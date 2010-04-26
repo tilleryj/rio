@@ -7,15 +7,12 @@
 	background-color: #fff;
 	position: absolute;
 	
-	-moz-opacity: 0.80;
-	opacity: 0.80;
-	filter: alpha(opacity=80);
+	-moz-opacity: 0.0;
+	opacity: 0.0;
+	filter: alpha(opacity=0);
 }
 
 .popupContent {
 	position: absolute;
 	z-index: 5001;
-/*	top: 0px;
-	left: 0px;
-*/
 }

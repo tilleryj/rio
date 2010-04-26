@@ -77,11 +77,11 @@ rio.components.ListView = rio.Component.create(rio.components.Box, "ListView", {
 				}
 			}.bind(this));
 			
-			listItem.observe("click", function() {
+			listItem.observe("click", function(e) {
 				if (this.getHandleClickSelection()) {
 					this.setSelectedItem(listItem.getItem());
 				}
-				this.fire("itemClick", listItem.getItem());
+				this.fire("itemClick", listItem.getItem(), e);
 			}.bind(this));
 			listItem.observe("scrollTo", function() {
 				var listItemHtml = listItem.html();

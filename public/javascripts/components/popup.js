@@ -12,6 +12,7 @@ rio.components.Popup = rio.Component.create("Popup", {
 	],
 	attrReaders: [],
 	attrHtmls: ["overlay"],
+	attrEvents: ["deactivate"],
 	methods: {
 		buildHtml: function() {
 			if (this.getWrapContent()) {
@@ -38,6 +39,7 @@ rio.components.Popup = rio.Component.create("Popup", {
 		
 		deactivate: function(skipAnimation) {
 			rio.components.Popup.deactivate(this, skipAnimation);
+			this.fire("deactivate");
 		},
 		
 		resize: function() {
@@ -56,8 +58,11 @@ rio.components.Popup = rio.Component.create("Popup", {
 	},
 	classMethods: {
 		_activePopups: [],
+		_activeAnimations: [],
 	
 		activate: function(popup) {
+			this.cancelActiveAnimations();
+
 			this._activePopups.push(popup);
 			this.updateZIndices();
 			
@@ -71,27 +76,41 @@ rio.components.Popup = rio.Component.create("Popup", {
 		},
 		
 		deactivate: function(popup, forceSkipAnimation) {
-			this._activePopups.splice(this._activePopups.indexOf(popup), 1);
-			this.updateZIndices();
+			try {
+				popup.html().remove();
 
-			popup.html().remove();
+				this._activePopups.splice(this._activePopups.indexOf(popup), 1);
+				this.updateZIndices();
+				var popupOverlay = popup.overlayHtml();
+				if (popup.getAnimateOverlay() && !forceSkipAnimation) {
+					this._activeAnimations.push(new Effect.Fade(popupOverlay, {
+						from: popupOverlay.getStyle("opacity"),
+						to: 0.0,
+						duration: 0.5,
+						afterFinish: function() {
+							popupOverlay.remove();
+						}
+					}));
 
-			var popupOverlay = popup.overlayHtml();
-			if (popup.getAnimateOverlay() && !forceSkipAnimation) {
-				popupOverlay.fade({
-					from: popupOverlay.getStyle("opacity"),
-					to: 0.0,
-					duration: 0.5,
-					afterFinish: function() {
-						popupOverlay.remove();
-					}
-				});
+					this.resetOverlay();
+				} else {
+					popupOverlay.remove();
+					this.resetOverlay(true);
+				}
+			} catch(e) {
+				try {
+					popupOverlay.remove();
+					popup.remove();
+				} catch(e2) {}
 
-				this.resetOverlay();
-			} else {
-				popupOverlay.remove();
-				this.resetOverlay(true);
+				throw(e);
 			}
+		},
+		
+		cancelActiveAnimations: function() {
+			// this._activeAnimations.invoke("cancel");
+			// TODO: We need a reliable way of handling simultaneous popup activations/deactivations
+			this._activeAnimations.clear();
 		},
 		
 		updateZIndices: function() {
@@ -126,11 +145,11 @@ rio.components.Popup = rio.Component.create("Popup", {
 				if (skipAnimation) {
 					nextPopup.overlayHtml().setStyle({ opacity: backgroundOpacity });
 				} else {
-					nextPopup.overlayHtml().appear({
+					this._activeAnimations.push(new Effect.Appear(nextPopup.overlayHtml(), {
 						from: totalOpacity,
 						to: backgroundOpacity,
 						duration: 0.5
-					});
+					}));
 				}
 			} else {
 				var opacity, p;
@@ -141,11 +160,11 @@ rio.components.Popup = rio.Component.create("Popup", {
 						if (skipAnimation) {
 							p.overlayHtml().setStyle({ opacity: 0.0 });
 						} else {
-							p.overlayHtml().fade({
+							this._activeAnimations.push(new Effect.Fade(p.overlayHtml(), {
 								from: opacity,
 								to: 0.0,
 								duration: 0.5
-							});
+							}));
 						}
 					}
 				}
@@ -158,11 +177,11 @@ rio.components.Popup = rio.Component.create("Popup", {
 				this.activePopup().overlayHtml().show();
 				this.activePopup().overlayHtml().setStyle({ opacity: foregroundOpacity });
 			} else {
-				this.activePopup().overlayHtml().appear({
+				this._activeAnimations.push(new Effect.Appear(this.activePopup().overlayHtml(), {
 					from: this.activePopup().overlayHtml().getStyle("opacity"),
 					to: foregroundOpacity,
 					duration: 0.5
-				});
+				}));
 			}
 		},
 		
@@ -175,7 +194,7 @@ rio.components.Popup = rio.Component.create("Popup", {
 			if (this._hasObservers) { return; }
 			document.observe("keydown", function(e) {
 				if (e.keyCode == Event.KEY_ESC && this.activePopup() && this.activePopup().getDeactivateOnEscape()) {
-					this.deactivate(this.activePopup());
+					this.activePopup().deactivate();
 				}
 			}.bindAsEventListener(this));
 			

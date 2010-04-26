@@ -68,7 +68,7 @@ rio.components.GridItem = rio.Component.create(rio.components.ListItem, "GridIte
 			var className = Object.isFunction(rowClassName) ? rowClassName(this.getItem()) : rowClassName;
 			var html = rio.Tag.tr(
 				this.getColumns().map(function(column) {
-					var cell = rio.Tag.td(column.renderer(this.getItem()));
+					var cell = rio.Tag.td(column.renderer(this.getItem(), this));
 					cell.setStyle({
 						width: column.width,
 						textAlign: column.align || "left",
@@ -82,9 +82,9 @@ rio.components.GridItem = rio.Component.create(rio.components.ListItem, "GridIte
 			);
 			
 			html.addHoverClass(this.getHoverClassName());
-			html.observe("click", function() {
-				this.fire("click");
-			}.bind(this));
+			html.observe("click", function(e) {
+				this.fire("click", e);
+			}.bindAsEventListener(this));
 			
 			this.bind("selected", function(selected) {
 				html[selected ? "addClassName" : "removeClassName"](this.getSelectedClassName());

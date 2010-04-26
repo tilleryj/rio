@@ -28,8 +28,12 @@
 	-webkit-border-radius: 4px;
 }
 
-.alertBox .ok {
+.alertBox .alertButtons {
 	text-align: center;
 	margin-top: 15px;
 	margin-bottom: 20px;
+}
+
+.alertBox .alertButtons > * {
+	margin: 0px 6px;
 }
