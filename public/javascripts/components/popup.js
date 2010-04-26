@@ -24,11 +24,16 @@ rio.components.Popup = rio.Component.create("Popup", {
 		
 		buildOverlayHtml: function() {
 			this._overlayHtml = rio.Tag.div("", { className: "popupOverlay", style: "display: none" });
-			this._overlayHtml.observe("click", function() {
-				if (this.getDeactivateOnClick()) {
+
+			if (this.getDeactivateOnClick()) {
+				this._overlayHtml.observe("click", function() {
 					this.deactivate();
-				}
-			}.bind(this));
+				}.bind(this));
+				this._overlayHtml.observe("contextmenu", function(e) {
+					this.deactivate();
+					e.stop();
+				}.bind(this));
+			}
 
 			return this._overlayHtml;
 		},

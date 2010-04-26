@@ -9,20 +9,29 @@ rio.components.GridView = rio.Component.create(rio.components.ListView, "GridVie
 		["header", true],
 		["rowClassName", ""],
 		["rowHoverClassName", "gridItemHover"],
-		["rowSelectedClassName", "gridItemSelected"]
+		["rowSelectedClassName", "gridItemSelected"],
+		["handleContextMenu", false]
 	],
 	attrHtmls: ["header"],
+	attrEvents: ["contextMenu"],
 	methods: {
 		initialize: function($super, options) {
 			$super(options);
 			this._listItemBuilder = function(item, renderer) {
-				return new rio.components.GridItem({
+				var gridItem = new rio.components.GridItem({
 					item: item,
 					columns: this.getColumns(),
 					rowClassName: this.getRowClassName(),
 					hoverClassName: this.getRowHoverClassName(),
-					selectedClassName: this.getRowSelectedClassName()
+					selectedClassName: this.getRowSelectedClassName(),
+					handleContextMenu: this.getHandleContextMenu()
 				});
+				
+				if (this.getHandleContextMenu()) {
+					gridItem.observe("contextMenu", this.fire.bind(this, "contextMenu"));
+				}
+				
+				return gridItem;
 			}.bind(this);
 		},
 
@@ -60,8 +69,8 @@ rio.components.GridView = rio.Component.create(rio.components.ListView, "GridVie
 
 rio.components.GridItem = rio.Component.create(rio.components.ListItem, "GridItem", {
 	attrAccessors: [["columns", []], ["selected", false]],
-	attrReaders: ["rowClassName"],
-	attrEvents: ["click"],
+	attrReaders: ["rowClassName", "handleContextMenu"],
+	attrEvents: ["click", "contextMenu"],
 	methods: {
 		buildHtml: function() {
 			var rowClassName = this.getRowClassName();
@@ -85,6 +94,13 @@ rio.components.GridItem = rio.Component.create(rio.components.ListItem, "GridIte
 			html.observe("click", function(e) {
 				this.fire("click", e);
 			}.bindAsEventListener(this));
+			
+			if (this.getHandleContextMenu()) {
+				html.observe("contextmenu", function(e) {
+					this.fire("contextMenu", this, e);
+					e.stop();
+				}.bindAsEventListener(this));
+			}
 			
 			this.bind("selected", function(selected) {
 				html[selected ? "addClassName" : "removeClassName"](this.getSelectedClassName());
