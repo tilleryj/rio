@@ -92,7 +92,11 @@ rio.ConsoleCommands = {
 	ec: {
 		description: "Show a count of event observations",
 		action: function() {
-			yaml = rio.Yaml.dump(opener.rio.eventCounts || {});
+			var eventCounts = opener.rio.eventCounts || {};
+			var total = Object.values(eventCounts).inject(0, function(acc, c) { return acc + c });
+			
+			yaml = rio.Yaml.dump(eventCounts);
+			yaml += "\n----------------\ntotal: " + total;
 			this.log(yaml, "", "");
 		}
 	},

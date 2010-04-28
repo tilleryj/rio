@@ -30,6 +30,7 @@ rio.components.ListView = rio.Component.create(rio.components.Box, "ListView", {
 			if (!this._unbindings) { this._unbindings = []; }
 			var unbindItems = this.bind("items", {
 				set: function(items) {
+					listHtml.hide();
 					listHtml.update();
 					this.setListItems([]);
 					if (items) {
@@ -37,6 +38,7 @@ rio.components.ListView = rio.Component.create(rio.components.Box, "ListView", {
 							this.insertItem(items[i], this.getListItems().size(), listHtml);
 						}
 					}
+					listHtml.show();
 				}.bind(this),
 				insert: function(val, atIndex) {
 					this.insertItem(val, atIndex, listHtml);

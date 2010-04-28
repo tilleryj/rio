@@ -284,6 +284,8 @@ var w = window;
 	}
 
 	document.observe('dom:loaded', function() {
+		rio.EventDelegator.enable();
+		
 		var app = rio.apps[rio.boot.appName.camelize()];
 		var pushOverride = app.environment().push == undefined ? true : app.environment().push;
 		if ((rio.environment.push && pushOverride) && !rio.push) {

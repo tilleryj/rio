@@ -8,8 +8,12 @@ rio.components.Label = rio.Component.create(rio.components.Base, {
 			this.content.bind(function(content) {
 				labelHtml.update(content);
 			});
-			labelHtml.observe("dblclick", this.fire.curry("dblClick").bind(this));
+			labelHtml.rioComponent = this;
 			return labelHtml;
+		},
+		
+		dblClick: function(e) {
+			this.fire("dblClick", e);
 		}
 	}
 });

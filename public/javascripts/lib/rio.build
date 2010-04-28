@@ -4,6 +4,7 @@ lib/cookie
 lib/file
 lib/yaml
 lib/thread
+lib/event_delegator
 lib/tag
 lib/key_map
 lib/clipboard
