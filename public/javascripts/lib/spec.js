@@ -374,6 +374,7 @@ Object.extend(Boolean.prototype, rio.Assertions);
 Object.extend(Number.prototype, rio.Assertions);
 Object.extend(Function.prototype, rio.Assertions);
 Object.extend(Array.prototype, rio.Assertions);
+Object.extend(Date.prototype, rio.Assertions);
 
 Object.extend(String.prototype, {
 	shouldStartWith: function(val) {
@@ -454,6 +455,24 @@ Object.extend(Array.prototype, {
 
 	shouldNotBeEmpty: function() {
 		this.shouldNot(this.empty(), "expected " + this + " to not be empty");
+	}
+});
+
+Object.extend(Date.prototype, {
+	shouldEqual: function(val) {
+		this.should(this.getTime() == val.getTime(), "expected " + this + " to equal " + val);
+	},
+
+	shouldBeBefore: function(val) {
+		this.should(this < val, "expected " + this + " to come before " + val);
+	},
+
+	shouldBeAfter: function(val) {
+		this.should(this > val, "expected " + this + " to come after " + val);
+	},
+
+	shouldBeBetween: function(val, val2) {
+		this.should(this > val && this < val2, "expected " + this + " to be between " + val + " and " + val2);
 	}
 });
 

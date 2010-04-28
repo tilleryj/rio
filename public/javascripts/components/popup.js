@@ -8,7 +8,7 @@ rio.components.Popup = rio.Component.create("Popup", {
 		["opacity", 0.8],
 		["autoCenter", true],
 		["wrapContent", true],
-		["animateOverlay", true]
+		["animateOverlay", false]
 	],
 	attrReaders: [],
 	attrHtmls: ["overlay"],

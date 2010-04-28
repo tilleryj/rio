@@ -22,7 +22,7 @@ rio.components.Input = rio.Component.create(rio.components.Box, "Input", {
 		["focus", false],
 		["enabled", true]
 	],
-	attrEvents: ["enter", "keyPress", "keyDown", "keyUp", "focus", "blur"],
+	attrEvents: ["enter", "escape", "keyPress", "keyDown", "keyUp", "focus", "blur"],
 	methods: {
 		buildHtml: function() {
 			var inputHtml = rio.Tag.input("", {
@@ -131,9 +131,12 @@ rio.components.Input = rio.Component.create(rio.components.Box, "Input", {
 					}, this);
 				}
 				
-				if (e.keyCode == Event.KEY_ESC && this.getRevertOnEscape()) {
-					inputHtml.value = this.getValue();
-					inputHtml.blur();
+				if (e.keyCode == Event.KEY_ESC) {
+					if (this.getRevertOnEscape()) {
+						inputHtml.value = this.getValue();
+						inputHtml.blur();
+					}
+					this.fire("escape");
 				}
 				
 				this.fire("keyDown", e);

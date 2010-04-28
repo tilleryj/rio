@@ -150,10 +150,10 @@ rio.ConsoleCommands = {
 		}
 	},
 	
-	// perf: {
-	// 	description: "Check the status of, turn on, and turn off autocss",
-	// 	action: function(prompt) {
-	// 		this.log("Benchmarking...");
+	perf: {
+		description: "Check the status of, turn on, and turn off autocss",
+		action: function(prompt) {
+			this.log("Benchmarking...");
 	// 		var stub = function(obj, method) {
 	// 			return new opener.rio.Stub(obj, method);
 	// 		};
@@ -166,7 +166,7 @@ rio.ConsoleCommands = {
 	// 		stubs.push(stub(opener.rio.components.LineItem, "_lineItemCache").withValue({}));
 	// 
 	// 		// var count = "Model#initialize";
-	// 		opener.rio.Benchmark.start();
+	//		opener.rio.Benchmark.start();
 	// 
 	// 		try {
 	// 			// TODO: remove method
@@ -174,7 +174,7 @@ rio.ConsoleCommands = {
 	// 				items: opener.rio.models.Outline.find(41).getRootNodes().sortedLineItems
 	// 			});
 	// 			
-	// 			var startTime = new Date();
+				var startTime = new Date();
 	// 			// opener.rio.models.LineItem.findAll({ parameters: { outlineId: 196 } });
 	// 			// opener.rio.models.Outline.find(196).getLineItems()
 	// 			// opener.rio.models.Outline.find(196).getRootNodes().getSortedLineItems();
@@ -192,7 +192,29 @@ rio.ConsoleCommands = {
 	// 			// 	new opener.rio.models.LineItem({ outline: o });
 	// 			// });
 	// 			
-	// 			this.log(new Date() - startTime + " ms");
+
+				// opener.rio.Benchmark.start();
+				var runs = 1;
+				(runs).times(function() {
+					try {
+						opener.rio.app.getCurrentPage().getOutlineListPage().closePopup();
+					} catch(e) {
+					}
+					opener.rio.app.getCurrentPage().getOutlineListPage().popup();
+				});
+				this.log((new Date() - startTime)/runs + " ms");
+
+				// opener.rio.Benchmark.stop();
+				// opener.rio.Benchmark.getInstallations().each(function(installation) {
+				// 	this.log(
+				// 		installation.getObjectString() + "#" + 
+				// 		installation.getMethodName() + " - " + 
+				// 		installation.getInvocations() / 5 + ", " +
+				// 		installation.getTime() / 5
+				// 	);
+				// }.bind(this));
+
+	//			this.log(new Date() - startTime + " ms");
 	// 
 	// 			opener.rio.Benchmark.stop();
 	// 			opener.rio.Benchmark.getInstallations().each(function(installation) {
@@ -209,8 +231,8 @@ rio.ConsoleCommands = {
 	// 		} finally {
 	// 			stubs.invoke("release");
 	// 		}
-	// 	}
-	// },
+		}
+	},
 	
 	fixtures: {
 		description: "Force the fixtures to reload",

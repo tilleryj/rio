@@ -9,6 +9,7 @@ describe(rio.Spec, {
 					{ name: "Number", yes: 1, no: 2 },
 					{ name: "Function", yes: Prototype.emptyFunction, no: function() {} },
 					{ name: "Array", yes: [1, 2, 3], no: [3, 2, 1] },
+					{ name: "Date", yes: new Date("10/12/1982"), no: new Date("6/1/1982") },
 					{ name: "Id", yes: new rio.Id(1), no: new rio.Id(2) }
 				].each(function(data) {
 					specs["to " + data.name] = function() {
@@ -35,6 +36,7 @@ describe(rio.Spec, {
 					{ name: "Number", yes: 1, no: 2 },
 					{ name: "Function", yes: Prototype.emptyFunction, no: function() {} },
 					{ name: "Array", yes: [1, 2, 3], no: [3, 2, 1] },
+					{ name: "Date", yes: new Date("10/12/1982"), no: new Date("6/1/1982") },
 					{ name: "Id", yes: new rio.Id(1), no: new rio.Id(2) }
 				].each(function(data) {
 					specs["to " + data.name] = function() {
@@ -61,6 +63,7 @@ describe(rio.Spec, {
 					{ name: "Number", yes: 1, no: 0 },
 					{ name: "Function", yes: Prototype.emptyFunction },
 					{ name: "Array", yes: [1, 2, 3] },
+					{ name: "Date", yes: new Date("10/12/1982") },
 					{ name: "Id", yes: new rio.Id(1) }
 				].each(function(data) {
 					specs["to " + data.name] = function() {
@@ -90,6 +93,7 @@ describe(rio.Spec, {
 					{ name: "Number", yes: 0, no: 1 },
 					{ name: "Function", no: Prototype.emptyFunction },
 					{ name: "Array", no: [1, 2, 3] },
+					{ name: "Date", no: new Date("10/12/1982") },
 					{ name: "Id", no: new rio.Id(1) }
 				].each(function(data) {
 					specs["to " + data.name] = function() {
@@ -117,6 +121,7 @@ describe(rio.Spec, {
 					{ name: "Number", yes: 0, no: 1 },
 					{ name: "Function", no: Prototype.emptyFunction },
 					{ name: "Array", no: [1, 2, 3] },
+					{ name: "Date", no: new Date("6/1/1982") },
 					{ name: "Id", no: new rio.Id(1) }
 				].each(function(data) {
 					specs["to " + data.name] = function() {
@@ -203,6 +208,43 @@ describe(rio.Spec, {
 		
 		"shouldEqual to Id that considers Id objects equal to their underlying integer value": function() {
 			new rio.Id(1).shouldEqual(1);
+		},
+		
+		"shouldEqual to Date that considers Date objects equal to their underlying time": function() {
+			new Date("10/12/1982").shouldEqual(new Date("10/12/1982"));
+		},
+
+		"shouldBeBefore to Date": function() {
+			new Date("6/1/1982").shouldBeBefore(new Date("10/12/1982"));
+			var failed;
+			try {
+				new Date("10/12/1982").shouldBeBefore(new Date("6/1/1982"));
+			} catch(e) {
+				failed = true;
+			}
+			failed.shouldBeTrue();
+		},
+		
+		"shouldBeAfter to Date": function() {
+			new Date("10/12/1982").shouldBeAfter(new Date("6/1/1982"));
+			var failed;
+			try {
+				new Date("6/1/1982").shouldBeAfter(new Date("10/12/1982"));
+			} catch(e) {
+				failed = true;
+			}
+			failed.shouldBeTrue();
+		},
+		
+		"shouldBeBetween to Date": function() {
+			new Date("10/12/1982").shouldBeBetween(new Date("6/1/1982"), new Date("12/1/1982"));
+			var failed;
+			try {
+				new Date("6/1/1982").shouldBeBetween(new Date("10/12/1982"), new Date("12/1/1982"));
+			} catch(e) {
+				failed = true;
+			}
+			failed.shouldBeTrue();
 		}
 	},
 	

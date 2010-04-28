@@ -42,7 +42,8 @@ rio.Tag = {
 		"iframe",
 		"link",
 		"script",
-		"select"
+		"select",
+		"sup"
 	]
 };
 (function() {

@@ -10,14 +10,25 @@ rio.components.GridView = rio.Component.create(rio.components.ListView, "GridVie
 		["rowClassName", ""],
 		["rowHoverClassName", "gridItemHover"],
 		["rowSelectedClassName", "gridItemSelected"],
-		["handleContextMenu", false]
+		["handleContextMenu", false],
+		
+		/**
+			The item object must have a unique toString value to be used as a cache key
+		*/
+		["cacheGridItems", false]
 	],
 	attrHtmls: ["header"],
 	attrEvents: ["contextMenu"],
 	methods: {
 		initialize: function($super, options) {
 			$super(options);
+
+			var cacheGridItems = this.getCacheGridItems();
+			if (cacheGridItems) {
+				this._gridItemCache = {};
+			}
 			this._listItemBuilder = function(item, renderer) {
+				if (cacheGridItems && this._gridItemCache[item]) { return this._gridItemCache[item]; }
 				var gridItem = new rio.components.GridItem({
 					item: item,
 					columns: this.getColumns(),
@@ -31,6 +42,7 @@ rio.components.GridView = rio.Component.create(rio.components.ListView, "GridVie
 					gridItem.observe("contextMenu", this.fire.bind(this, "contextMenu"));
 				}
 				
+				if (cacheGridItems) { this._gridItemCache[item] = gridItem; }
 				return gridItem;
 			}.bind(this);
 		},
@@ -81,21 +93,43 @@ rio.components.GridItem = rio.Component.create(rio.components.ListItem, "GridIte
 		buildHtml: function() {
 			var rowClassName = this.getRowClassName();
 			var className = Object.isFunction(rowClassName) ? rowClassName(this.getItem()) : rowClassName;
-			var html = rio.Tag.tr(
-				this.getColumns().map(function(column) {
-					var cell = rio.Tag.td(column.renderer(this.getItem(), this));
-					cell.setStyle({
-						width: column.width,
-						textAlign: column.align || "left",
-						padding: (column.padding != undefined) ? column.padding : this.padding
-					});
-					return cell;
-				}.bind(this)),
-				{
-					className: className
-				}
-			);
+
+
+			var columns = this.getColumns();
+			var column, cell;
+			var html = rio.Tag.tr("", { className: className });
 			
+			var deferRendering = function(cell, column) {
+				var contents = column.renderer(this.getItem(), this, html);
+				if (Object.isArray(contents)) {
+					cell.update();
+					contents.each(function(content) {
+						cell.insert(content);
+					});
+				} else {
+					cell.update();
+					cell.insert(contents);
+				}
+			};
+			
+			for (var i=0, length=columns.length; i<length; i++) {
+				column = columns[i];
+
+				if (column.deferRendering) {
+					cell = rio.Tag.td(" ");
+					rio.Thread.fork(deferRendering.bind(this, cell, column), column.deferOptions);
+				} else {
+					cell = rio.Tag.td(column.renderer(this.getItem(), this, html));
+				}
+				
+				cell.setStyle({
+					width: column.width,
+					textAlign: column.align || "left",
+					padding: (column.padding != undefined) ? column.padding : this.padding
+				});
+				html.insert(cell);
+			}
+
 			html.addHoverClass(this.getHoverClassName());
 			html.observe("click", function(e) {
 				this.fire("click", e);

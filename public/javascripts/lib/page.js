@@ -48,9 +48,19 @@ rio.Page = {
 			},
 			
 			popup: function() {
+				if (this.__popup && this.__popupOpen) {
+					this.__popup.deactivate(true);
+				}
+
+				this.__popupOpen = true;
+				
+
 				if (!this.__popup) { 
 					this.__popup = new rio.components.Popup({
-						content: this.html()
+						content: this.html(),
+						onDeactivate: function() {
+							this.__popupOpen = false;
+						}.bind(this)
 					});
 				}
 				this.__popup.activate();

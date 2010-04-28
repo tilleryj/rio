@@ -3,6 +3,7 @@ lib/protohack
 lib/cookie
 lib/file
 lib/yaml
+lib/thread
 lib/tag
 lib/key_map
 lib/clipboard
