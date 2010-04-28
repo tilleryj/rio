@@ -34,8 +34,7 @@ rio.components.GridView = rio.Component.create(rio.components.ListView, "GridVie
 					columns: this.getColumns(),
 					rowClassName: this.getRowClassName(),
 					hoverClassName: this.getRowHoverClassName(),
-					selectedClassName: this.getRowSelectedClassName(),
-					handleContextMenu: this.getHandleContextMenu()
+					selectedClassName: this.getRowSelectedClassName()
 				});
 				
 				if (this.getHandleContextMenu()) {
@@ -63,6 +62,31 @@ rio.components.GridView = rio.Component.create(rio.components.ListView, "GridVie
 			boxHtml.insert(gridHtml);
 			
 			boxHtml.addClassName("gridView");
+
+			boxHtml.observe("click", function(e) {
+				var target = e.target;
+				while(target && target != boxHtml) {
+					if (target.rioComponent && Object.isFunction(target.rioComponent.click)) {
+						target.rioComponent.click(e);
+					}
+					target = target.parentNode;
+				}
+			}.bindAsEventListener(this));
+			
+			if (this.getHandleContextMenu()) {
+				boxHtml.observe("contextmenu", function(e) {
+					var target = e.target;
+					while(target && target != boxHtml) {
+						if (target.rioComponent && Object.isFunction(target.rioComponent.contextMenu)) {
+							target.rioComponent.contextMenu(e);
+							e.stop();
+							return;
+						}
+						target = target.parentNode;
+					}
+				}.bindAsEventListener(this));
+			}
+			
 			
 			return boxHtml;
 		},
@@ -87,7 +111,7 @@ rio.components.GridView = rio.Component.create(rio.components.ListView, "GridVie
 
 rio.components.GridItem = rio.Component.create(rio.components.ListItem, "GridItem", {
 	attrAccessors: [["columns", []], ["selected", false]],
-	attrReaders: ["rowClassName", "handleContextMenu"],
+	attrReaders: ["rowClassName"],
 	attrEvents: ["click", "contextMenu"],
 	methods: {
 		buildHtml: function() {
@@ -98,6 +122,8 @@ rio.components.GridItem = rio.Component.create(rio.components.ListItem, "GridIte
 			var columns = this.getColumns();
 			var column, cell;
 			var html = rio.Tag.tr("", { className: className });
+			
+			html.rioComponent = this;
 			
 			var deferRendering = function(cell, column) {
 				var contents = column.renderer(this.getItem(), this, html);
@@ -130,24 +156,25 @@ rio.components.GridItem = rio.Component.create(rio.components.ListItem, "GridIte
 				html.insert(cell);
 			}
 
-			html.addHoverClass(this.getHoverClassName());
-			html.observe("click", function(e) {
-				this.fire("click", e);
-			}.bindAsEventListener(this));
-			
-			if (this.getHandleContextMenu()) {
-				html.observe("contextmenu", function(e) {
-					this.fire("contextMenu", this, e);
-					e.stop();
-				}.bindAsEventListener(this));
+			var hoverClassName = this.getHoverClassName();
+			if (hoverClassName) {
+				html.addHoverClass(hoverClassName);
 			}
-			
+
 			this.bind("selected", function(selected) {
 				html[selected ? "addClassName" : "removeClassName"](this.getSelectedClassName());
 			}.bind(this));
 			
 			
 			return html;
+		},
+		
+		click: function(e) {
+			this.fire("click", e);
+		},
+		
+		contextMenu: function(e) {
+			this.fire("contextMenu", this, e)
 		}
 	}
 });

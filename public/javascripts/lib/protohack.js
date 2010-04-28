@@ -135,7 +135,9 @@ Element.addMethods({
 });
 
 if (rio.environment.logEventErrors) {
+	rio.eventCounts = {};
 	Event.observe = Event.observe.wrap(function(proceed, element, eventName, handler) {
+		rio.eventCounts[eventName] = (rio.eventCounts[eventName] || 0) + 1;
 		var newHandler = handler.wrap(function(proceed) {
 			try {
 				proceed.apply(proceed, $A(arguments).slice(1));

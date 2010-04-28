@@ -80,6 +80,30 @@ rio.ConsoleCommands = {
 			opener.rio.app.reboot();
 		}
 	},
+
+	y: {
+		description: "Dump an object as yaml",
+		action: function(prompt) {
+			yaml = rio.Yaml.dump(opener.eval(prompt.match(/^y (.*)$/)[1]));
+			this.log(yaml, "", "");
+		}
+	},
+	
+	ec: {
+		description: "Show a count of event observations",
+		action: function() {
+			yaml = rio.Yaml.dump(opener.rio.eventCounts || {});
+			this.log(yaml, "", "");
+		}
+	},
+
+	rec: {
+		description: "Reset the count of event observations",
+		action: function() {
+			opener.rio.eventCounts = {};
+			this.log("Event counts reset");
+		}
+	},
 	
 	bind: {
 		description: "Set the execution binding to something other than window",
