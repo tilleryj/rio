@@ -12,6 +12,7 @@ rio.components.ListItem = rio.Component.create(rio.components.Base, "ListItem", 
 	methods: {
 		buildHtml: function() {
 			var listItemHtml = this.getRenderer()(this.getItem());
+			listItemHtml.rioComponent = this;
 
 			var hoverClass = this.getHoverClassName();
 			if (hoverClass && !hoverClass.blank()) {
@@ -22,13 +23,6 @@ rio.components.ListItem = rio.Component.create(rio.components.Base, "ListItem", 
 					listItemHtml.removeClassName(hoverClass);
 				});
 			}
-
-			listItemHtml.observe("click", function(e) { 
-				this.click();
-				if (this.getStopClickPropogation()) {
-					e.stop();
-				}
-			}.bindAsEventListener(this));
 			
 			this.bind("selected", function(selected) {
 				listItemHtml[selected ? "addClassName" : "removeClassName"](this.getSelectedClassName());
@@ -37,8 +31,11 @@ rio.components.ListItem = rio.Component.create(rio.components.Base, "ListItem", 
 			return listItemHtml;
 		},
 		
-		click: function() {
+		click: function(e) {
 			this.fire("click");	
+			if (this.getStopClickPropogation()) {
+				e.stop();
+			}
 		},
 		
 		scrollTo: function() {

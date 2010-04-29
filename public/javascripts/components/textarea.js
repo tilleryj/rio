@@ -29,6 +29,7 @@ rio.components.Textarea = rio.Component.create(rio.components.Base, "Textarea", 
 			if (hoverClass && !hoverClass.blank()) {
 				html.addHoverClass(hoverClass);
 			}
+			html.rioComponent = this;
 			return html;
 		},
 		
@@ -150,13 +151,15 @@ rio.components.Textarea = rio.Component.create(rio.components.Base, "Textarea", 
 				updateHeight();
 				this.fire("keyDown", e);
 			}.bindAsEventListener(this));
-			textareaHtml.observe('keyup', function() {
-				updateHeight();
-				this.fire("keyUp");
-			}.bind(this));
-			
+
 			return textareaHtml;			
 		},
+		
+		keyUp: function() {
+			this.resize(this.textareaHtml());
+			this.fire("keyUp");
+		},
+		
 		clear: function() {
 			this.setValue("");
 		},
