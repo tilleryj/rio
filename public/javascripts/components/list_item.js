@@ -13,12 +13,16 @@ rio.components.ListItem = rio.Component.create(rio.components.Base, "ListItem", 
 		buildHtml: function() {
 			var listItemHtml = this.getRenderer()(this.getItem());
 
-			listItemHtml.observe("mouseover", function() {
-				listItemHtml.addClassName(this.getHoverClassName());
-			}.bind(this));
-			listItemHtml.observe("mouseout", function() {
-				listItemHtml.removeClassName(this.getHoverClassName());
-			}.bind(this));
+			var hoverClass = this.getHoverClassName();
+			if (hoverClass && !hoverClass.blank()) {
+				listItemHtml.observe("mouseover", function() {
+					listItemHtml.addClassName(hoverClass);
+				});
+				listItemHtml.observe("mouseout", function() {
+					listItemHtml.removeClassName(hoverClass);
+				});
+			}
+
 			listItemHtml.observe("click", function(e) { 
 				this.click();
 				if (this.getStopClickPropogation()) {

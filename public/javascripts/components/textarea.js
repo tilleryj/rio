@@ -19,16 +19,16 @@ rio.components.Textarea = rio.Component.create(rio.components.Base, "Textarea", 
 	],
 	attrEvents: ["enter", "keyPress", "keyDown", "keyUp", "focus", "blur", "resize"],
 	attrHtmls: ["textarea"],
-	styles: ["height"],
 	methods: {
 		buildHtml: function() {
-			var html = rio.Tag.div("", { 
+			var html = rio.Tag.div(this.textareaHtml(), { 
 				className: this.getClassName(),
-				style: "padding-bottom: 1px"
+				style: "padding-bottom: 1px;"
 			});
-			html.addHoverClass(this.getHoverClassName());
-			html.insert(this.textareaHtml());
-			html.applyStyle({ height: this.height });
+			var hoverClass = this.getHoverClassName();
+			if (hoverClass && !hoverClass.blank()) {
+				html.addHoverClass(hoverClass);
+			}
 			return html;
 		},
 		
