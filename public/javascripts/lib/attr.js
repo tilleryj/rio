@@ -235,7 +235,7 @@ rio.Attr = {
 						if (binding.empty) { binding.empty(value.length == 0); }
 					}
 					if (binding.set) { 
-						binding.set(value);
+						binding.set(value, oldValue);
 					}
 				}
 			},

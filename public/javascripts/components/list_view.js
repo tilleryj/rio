@@ -29,8 +29,11 @@ rio.components.ListView = rio.Component.create(rio.components.Box, "ListView", {
 		addBindings: function(listHtml) {
 			if (!this._unbindings) { this._unbindings = []; }
 			var unbindItems = this.bind("items", {
-				set: function(items) {
-					listHtml.hide();
+				set: function(items, oldItems) {
+					if ((oldItems == undefined || oldItems.length == 0) && (items && items.empty())) {
+						return;
+					}
+					var reinserter = listHtml.removeToInsertLater();
 					listHtml.update();
 					this.setListItems([]);
 					if (items) {
@@ -38,7 +41,7 @@ rio.components.ListView = rio.Component.create(rio.components.Box, "ListView", {
 							this.insertItem(items[i], this.getListItems().size(), listHtml);
 						}
 					}
-					listHtml.show();
+					reinserter();
 				}.bind(this),
 				insert: function(val, atIndex) {
 					this.insertItem(val, atIndex, listHtml);

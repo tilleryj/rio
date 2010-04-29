@@ -49,6 +49,21 @@ Object.extend(Element, {
 });
 
 Element.addMethods({
+	
+	removeToInsertLater: function(elt) {
+		var parentNode = elt.parentNode;
+		var nextSibling = elt.nextSibling;
+		parentNode.removeChild(elt);
+
+		return function() {
+			if (nextSibling) {
+				parentNode.insertBefore(elt, nextSibling);
+			} else {
+				parentNode.appendChild(elt);
+			}
+		};
+	},
+
 	totalHeight: function(elt) {
 		return ["height", "margin-top", "margin-bottom", "padding-top", "padding-bottom", "border-top-width", "border-bottom-width"].inject(0, function(acc, prop) {
 			return acc + (parseInt(elt.getStyle(prop), 0) || 0);
