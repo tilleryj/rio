@@ -473,6 +473,10 @@ Object.extend(Date.prototype, {
 
 	shouldBeBetween: function(val, val2) {
 		this.should(this > val && this < val2, "expected " + this + " to be between " + val + " and " + val2);
+	},
+
+	shouldBeWithinOneSecondOfNow: function(val, val2) {
+		this.shouldBeBetween(new Date(new Date().getTime() - 1000), new Date(new Date().getTime() + 1000))
 	}
 });
 

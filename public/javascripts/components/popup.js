@@ -108,7 +108,7 @@ rio.components.Popup = rio.Component.create("Popup", {
 					popup.remove();
 				} catch(e2) {}
 
-				throw(e);
+				// throw(e);
 			}
 		},
 		

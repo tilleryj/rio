@@ -245,6 +245,20 @@ describe(rio.Spec, {
 				failed = true;
 			}
 			failed.shouldBeTrue();
+		},
+
+		"shouldBeWithinOneSecondOfNow to Date": function() {
+			new Date(new Date().getTime() - 500).shouldBeWithinOneSecondOfNow();
+			new Date(new Date().getTime() + 500).shouldBeWithinOneSecondOfNow();
+
+			var failed;
+			try {
+				new Date(new Date().getTime() - 1500).shouldBeWithinOneSecondOfNow();
+				new Date(new Date().getTime() + 1500).shouldBeWithinOneSecondOfNow();
+			} catch(e) {
+				failed = true;
+			}
+			failed.shouldBeTrue();
 		}
 	},
 	

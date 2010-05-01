@@ -86,41 +86,41 @@
 <span class='line'> 79</span> 			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">Object.isString</span><span class="PUNC">(</span><span class="NAME">initializers.requireCss</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 80</span> 				</span><span class="NAME">component.requireCss</span><span class="PUNC">(</span><span class="NAME">initializers.requireCss</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 81</span> 			</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 82</span> 			
-<span class='line'> 83</span> 			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">Object.isString</span><span class="PUNC">(</span><span class="NAME">initializers.template</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 84</span> 				</span><span class="NAME">component.template</span><span class="PUNC">(</span><span class="NAME">initializers.template</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 85</span> 			</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 86</span> 			
-<span class='line'> 87</span> 			</span><span class="PUNC">(</span><span class="NAME">initializers.styles</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">styleName</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 88</span> 				</span><span class="NAME">component.style</span><span class="PUNC">(</span><span class="NAME">styleName</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 89</span> 			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 90</span> 			
-<span class='line'> 91</span> 			</span><span class="NAME">rio.Component.extend</span><span class="PUNC">(</span><span class="NAME">component</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">initializers.methods</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 92</span> 		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 93</span> 		
-<span class='line'> 94</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">component</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 95</span> 	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 96</span> 	
-<span class='line'> 97</span> 	</span><span class="NAME">extend</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">component</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">extension</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 98</span> 		</span><span class="NAME">extension.__initialize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">extension.initialize</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">Prototype.emptyFunction</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 99</span> 		</span><span class="NAME">extension.initialize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>100</span> 			</span><span class="NAME">component.applyTemplate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>101</span> 		
-<span class='line'>102</span> 			</span><span class="PUNC">(</span><span class="NAME">this.__initialize.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>103</span> 		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>104</span> 
-<span class='line'>105</span> 		</span><span class="NAME">rio.Attr.extend</span><span class="PUNC">(</span><span class="NAME">component</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">extension</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>106</span> 	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>107</span> 	
-<span class='line'>108</span> 	</span><span class="NAME">toString</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>109</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">"Component"</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>110</span> 	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>111</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>112</span> 
-<span class='line'>113</span> 
-<span class='line'>114</span> 
-<span class='line'>115</span> 
-<span class='line'>116</span> 
+<span class='line'> 82</span> 			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">Object.isArray</span><span class="PUNC">(</span><span class="NAME">initializers.requireCss</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 83</span> 				</span><span class="NAME">initializers.requireCss.each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">css</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 84</span> 					</span><span class="NAME">component.requireCss</span><span class="PUNC">(</span><span class="NAME">css</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 85</span> 				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 86</span> 			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 87</span> 			
+<span class='line'> 88</span> 			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">Object.isString</span><span class="PUNC">(</span><span class="NAME">initializers.template</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 89</span> 				</span><span class="NAME">component.template</span><span class="PUNC">(</span><span class="NAME">initializers.template</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> 			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 91</span> 			
+<span class='line'> 92</span> 			</span><span class="PUNC">(</span><span class="NAME">initializers.styles</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">styleName</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 93</span> 				</span><span class="NAME">component.style</span><span class="PUNC">(</span><span class="NAME">styleName</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 94</span> 			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 95</span> 			
+<span class='line'> 96</span> 			</span><span class="NAME">rio.Component.extend</span><span class="PUNC">(</span><span class="NAME">component</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">initializers.methods</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span> 		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 98</span> 		
+<span class='line'> 99</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">component</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> 	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>101</span> 	
+<span class='line'>102</span> 	</span><span class="NAME">extend</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">component</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">extension</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>103</span> 		</span><span class="NAME">extension.__initialize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">extension.initialize</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">Prototype.emptyFunction</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> 		</span><span class="NAME">extension.initialize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>105</span> 			</span><span class="NAME">component.applyTemplate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> 		
+<span class='line'>107</span> 			</span><span class="PUNC">(</span><span class="NAME">this.__initialize.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span> 		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> 
+<span class='line'>110</span> 		</span><span class="NAME">rio.Attr.extend</span><span class="PUNC">(</span><span class="NAME">component</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">extension</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span> 	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>112</span> 	
+<span class='line'>113</span> 	</span><span class="NAME">toString</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>114</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">"Component"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>115</span> 	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>117</span> 
 <span class='line'>118</span> 
 <span class='line'>119</span> 
@@ -134,4 +134,9 @@
 <span class='line'>127</span> 
 <span class='line'>128</span> 
 <span class='line'>129</span> 
-<span class='line'>130</span> </span></pre></body></html>
+<span class='line'>130</span> 
+<span class='line'>131</span> 
+<span class='line'>132</span> 
+<span class='line'>133</span> 
+<span class='line'>134</span> 
+<span class='line'>135</span> </span></pre></body></html>

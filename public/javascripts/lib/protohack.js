@@ -309,6 +309,10 @@ Object.isArray = function(testObject) {
 	return testObject && !(testObject.propertyIsEnumerable != undefined && testObject.propertyIsEnumerable('length')) && typeof testObject === 'object' && typeof testObject.length === 'number' && !(testObject.tagName == "SELECT");
 };
 
+Object.isDate = function(testObject) {
+	return testObject != undefined && testObject.getTimezoneOffset != undefined;
+};
+
 Prototype.Browser.IE6 = Prototype.Browser.IE && parseInt(navigator.userAgent.substring(navigator.userAgent.indexOf("MSIE")+5), 10)==6;
 Prototype.Browser.IE7 = Prototype.Browser.IE && parseInt(navigator.userAgent.substring(navigator.userAgent.indexOf("MSIE")+5), 10)==7;
 Prototype.Browser.IE8 = Prototype.Browser.IE && parseInt(navigator.userAgent.substring(navigator.userAgent.indexOf("MSIE")+5), 10)==8;
