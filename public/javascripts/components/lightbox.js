@@ -119,16 +119,19 @@ rio.components.Lightbox = rio.Component.create(rio.components.Overlay, "Lightbox
 
 		// Example of creating your own functionality once lightbox is initiated
 		deactivate: function($super, skipFade){
-			if (Element.isRendered(this._contentHtml)) {
-				Element.remove(this._contentHtml);
-			}
+			try {
+				if (Element.isRendered(this._contentHtml)) {
+					Element.remove(this._contentHtml);
+				}
 
-			$super(skipFade);
-			Element.hide(this.outerHtml());
-			Event.stopObserving(window, "resize", this._resize);
-			Event.stopObserving(this.lightboxHtml(), 'click', this._markLightboxEvent);
-			Event.stopObserving(this.outerHtml(), 'click', this._outerLigthboxClick);
-			if (rio.components.Lightbox.currentLightbox == this) { rio.components.Lightbox.currentLightbox = null; }
+				$super(skipFade);
+				Element.hide(this.outerHtml());
+				Event.stopObserving(window, "resize", this._resize);
+				Event.stopObserving(this.lightboxHtml(), 'click', this._markLightboxEvent);
+				Event.stopObserving(this.outerHtml(), 'click', this._outerLigthboxClick);
+			} finally {
+				if (rio.components.Lightbox.currentLightbox == this) { rio.components.Lightbox.currentLightbox = null; }
+			}
 
 			this.fire("deactivate");
 		},
