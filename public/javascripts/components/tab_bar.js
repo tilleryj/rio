@@ -43,7 +43,7 @@ rio.components.TabBar = rio.Component.create(rio.components.Box, "TabBar", {
 });
 
 rio.components.Tab = rio.Component.create("Tab", {
-	attrAccessors: ["name", ["selected", false]],
+	attrAccessors: ["name", "content", ["selected", false]],
 	methods: {
 		buildHtml: function() {
 			
@@ -52,6 +52,14 @@ rio.components.Tab = rio.Component.create("Tab", {
 			this.name.bind(function(name) {
 				html.update(name);
 			});
+			this.content.bind(function(content) {
+				if (content) {
+					[content].flatten().each(function(c) {
+						html.insert(c);
+					});
+				}
+			});
+
 			this.selected.bind(function(selected) {
 				html.className = selected ? "tabSelected" : "tab";
 			}.bind(this));

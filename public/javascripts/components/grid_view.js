@@ -174,7 +174,7 @@ rio.components.GridItem = rio.Component.create(rio.components.ListItem, "GridIte
 		},
 		
 		contextMenu: function(e) {
-			this.fire("contextMenu", this, e)
+			this.fire("contextMenu", this, e);
 		}
 	}
 });
