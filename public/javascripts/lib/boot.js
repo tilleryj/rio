@@ -171,7 +171,15 @@ var w = window;
 		}
 	});
 	
-	Object.extend(rio.environment, rio.environments[rio.boot.environment]);
+	var getEnvironment = function(name) {
+		var env = rio.environments[name];
+		if (env.extend && env.extend != name) {
+			env = Object.extend(getEnvironment(env.extend), env);
+		}
+		return env;
+	};
+	
+	Object.extend(rio.environment, getEnvironment(rio.boot.environment));
 	Object.extend(rio.boot, rio.environment.boot);
 
 	if (bootOptions.noConsole === undefined) {

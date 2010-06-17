@@ -28,9 +28,7 @@ rio.components.Link = rio.Component.create(rio.components.Base, "Link", {
 
 			linkHtml.observe("click", function(e) {
 				this.fire("click");
-				if(this.getRealLink()) {
-					rio.Utils.navigateTo(this.getHref());
-				} else {
+				if(!this.getRealLink()) {
 					e.stop();
 				}
 			}.bindAsEventListener(this));
